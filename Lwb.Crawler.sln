@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "爬虫", "爬虫", "{53C2953D-FBED-4F2E-9E79-D58B0CA0D021}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lwb.Crawler", "Lwb.Crawler\Lwb.Crawler.csproj", "{9465768A-D826-4F27-8A8B-E20B0885CE74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9465768A-D826-4F27-8A8B-E20B0885CE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9465768A-D826-4F27-8A8B-E20B0885CE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9465768A-D826-4F27-8A8B-E20B0885CE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9465768A-D826-4F27-8A8B-E20B0885CE74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9465768A-D826-4F27-8A8B-E20B0885CE74} = {53C2953D-FBED-4F2E-9E79-D58B0CA0D021}
+	EndGlobalSection
+EndGlobal
