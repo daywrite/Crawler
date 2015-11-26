@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("Lwb.Crawler")]
+[assembly: AssemblyTitle("Lwb.Crawler.Contract")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Lwb.Crawler")]
+[assembly: AssemblyProduct("Lwb.Crawler.Contract")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("5f46c673-727c-4119-915f-407558fb5274")]
+[assembly: Guid("f84e1928-d2c0-4eea-85bd-8514effe5523")]
 
 // 程序集的版本信息由下面四个值组成: 
 //
