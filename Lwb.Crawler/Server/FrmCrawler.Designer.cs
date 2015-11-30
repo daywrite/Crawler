@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.mTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // FrmCrawler
@@ -43,5 +45,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Timer mTimer;
     }
 }

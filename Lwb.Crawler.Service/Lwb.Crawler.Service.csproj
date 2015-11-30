@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,10 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constant.cs" />
     <Compile Include="CrawlerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dapper NET40\Dapper NET40.csproj">
+      <Project>{daf737e1-05b5-4189-a5aa-dac6233b64d7}</Project>
+      <Name>Dapper NET40</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dapper NET45\Dapper NET45.csproj">
+      <Project>{0fff5bc7-0a4b-4d87-835e-4fad70937507}</Project>
+      <Name>Dapper NET45</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lwb.Crawler.Contract\Lwb.Crawler.Contract.csproj">
       <Project>{e7218ff3-54db-4cf8-aef7-3e50548a899d}</Project>
       <Name>Lwb.Crawler.Contract</Name>
