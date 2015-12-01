@@ -16,8 +16,11 @@ namespace Lwb.Crawler.Service.Crawl
 
 
             CrawlTask crawlTask = openPlot.GetCrawlTask();
-            sList.Add(crawlTask);
-
+            if (crawlTask != null)
+            {
+                sList.Add(crawlTask);
+            }
+            
             return sList;
         }
     }

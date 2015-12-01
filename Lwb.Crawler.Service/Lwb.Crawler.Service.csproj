@@ -46,6 +46,7 @@
     <Compile Include="Crawl\CrawlServer.cs" />
     <Compile Include="Crawl\OpenPlot.cs" />
     <Compile Include="Crawl\PlotWaterLine.cs" />
+    <Compile Include="Db\CrawlDbAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

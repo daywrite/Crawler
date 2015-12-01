@@ -9,6 +9,7 @@ using Lwb.Crawler.Contract.Model;
 
 using Dapper;
 using Lwb.Crawler.Contract.Crawl.Model;
+using Lwb.Crawler.Service.Crawl;
 namespace Lwb.Crawler.Service
 {
     public class CrawlerService : ICrawler
@@ -36,6 +37,11 @@ namespace Lwb.Crawler.Service
         }
         public List<CrawlTask> QueryCrawlTask(Input input)
         {
+            if (input.Type == 3)
+            {
+                return CrawlServer.GetCrawlTasks();
+            }
+
             return null;
         }
     }
