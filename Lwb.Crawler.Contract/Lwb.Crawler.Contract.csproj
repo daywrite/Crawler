@@ -42,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawl\Model\CrawlTaskDetail.cs" />
     <Compile Include="ICrawler.cs" />
     <Compile Include="Model\CTask.cs" />
+    <Compile Include="Model\Input.cs" />
+    <Compile Include="Model\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

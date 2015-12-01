@@ -8,6 +8,7 @@ using Lwb.Crawler.Contract;
 using Lwb.Crawler.Contract.Model;
 
 using Dapper;
+using Lwb.Crawler.Contract.Crawl.Model;
 namespace Lwb.Crawler.Service
 {
     public class CrawlerService : ICrawler
@@ -17,18 +18,25 @@ namespace Lwb.Crawler.Service
             return x + y;
         }
 
-        public List<CTask> Query()
+        public List<CTask> Query(Input input)
         {
-            List<CTask> result = new List<CTask>();
+
+            List<CTask> ret = new List<CTask>();
+
             using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
             {
                 string sql = "select Id,CTaskId,Url from CTask";
                 sqlConnection.Open();
-                result = sqlConnection.Query<CTask>(sql, null).ToList();
+                ret = sqlConnection.Query<CTask>(sql, null).ToList();
                 sqlConnection.Close();
             }
 
-            return result;
+            return ret;
+
+        }
+        public List<CrawlTask> QueryCrawlTask(Input input)
+        {
+            return null;
         }
     }
 }

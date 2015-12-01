@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using System.ServiceModel;
 using Lwb.Crawler.Contract.Model;
+using Lwb.Crawler.Contract.Crawl.Model;
 
 namespace Lwb.Crawler.Contract
 {
@@ -16,6 +17,9 @@ namespace Lwb.Crawler.Contract
         double Add(double x, double y);
 
         [OperationContract]
-        List<CTask> Query();
+        List<CTask> Query(Input input);
+
+        [OperationContract]
+        List<CrawlTask> QueryCrawlTask(Input input);
     }
 }
