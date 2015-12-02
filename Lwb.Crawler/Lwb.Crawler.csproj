@@ -46,10 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrawlerManager.cs" />
-    <Compile Include="Crawl\Model\CrawlResult.cs" />
-    <Compile Include="Crawl\Model\CrawlResultDetail.cs" />
-    <Compile Include="Crawl\Model\CrawlTask.cs" />
-    <Compile Include="Crawl\Model\CrawlTaskDetail.cs" />
+    <Compile Include="Helper\HttpHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\FrmCrawler.cs">
