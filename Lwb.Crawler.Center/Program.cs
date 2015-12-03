@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Lwb.Crawler.Center.Scheme;
 using Lwb.Crawler.Center.Server;
 using Lwb.Crawler.Service.Crawl;
 

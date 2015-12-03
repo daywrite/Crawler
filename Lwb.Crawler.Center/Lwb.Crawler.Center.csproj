@@ -52,6 +52,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheme\FrmPlotWaterLineGuide.cs" />
+    <Compile Include="Scheme\FrmPlotWaterLineGuide.Designer.cs">
+      <DependentUpon>FrmPlotWaterLineGuide.cs</DependentUpon>
+    </Compile>
     <Compile Include="Server\FrmServer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +84,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Scheme\FrmPlotWaterLineGuide.resx">
+      <DependentUpon>FrmPlotWaterLineGuide.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Server\FrmServer.resx">
       <DependentUpon>FrmServer.cs</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +131,7 @@
       <Name>Lwb.Unitity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
