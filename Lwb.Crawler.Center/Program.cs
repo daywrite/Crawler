@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Lwb.Crawler.Center.Server;
+using Lwb.Crawler.Service.Crawl;
 
 namespace Lwb.Crawler.Center
 {
@@ -18,6 +19,9 @@ namespace Lwb.Crawler.Center
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            CrawlServer.InitServer(Application.StartupPath);
+
             Application.Run(new FrmServer());
         }
     }

@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{257CCC68-C703-4F25-9FA8-07969EFBB3F9}</ProjectGuid>
+    <ProjectGuid>{0F755F01-C590-41CA-B5DB-4CEEEF22399E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lwb.Crawler.Service</RootNamespace>
-    <AssemblyName>Lwb.Crawler.Service</AssemblyName>
+    <RootNamespace>Lwb.Unitity</RootNamespace>
+    <AssemblyName>Lwb.Unitity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,8 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,31 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constant.cs" />
-    <Compile Include="CrawlerService.cs" />
-    <Compile Include="Crawl\CrawlServer.cs" />
-    <Compile Include="Crawl\OpenPlot.cs" />
-    <Compile Include="Crawl\PlotWaterLine.cs" />
-    <Compile Include="Db\CrawlDbAdapter.cs" />
+    <Compile Include="File\DirFileHelper.cs" />
+    <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dapper NET40\Dapper NET40.csproj">
-      <Project>{daf737e1-05b5-4189-a5aa-dac6233b64d7}</Project>
-      <Name>Dapper NET40</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Dapper NET45\Dapper NET45.csproj">
-      <Project>{0fff5bc7-0a4b-4d87-835e-4fad70937507}</Project>
-      <Name>Dapper NET45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lwb.Crawler.Contract\Lwb.Crawler.Contract.csproj">
-      <Project>{e7218ff3-54db-4cf8-aef7-3e50548a899d}</Project>
-      <Name>Lwb.Crawler.Contract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lwb.Unitity\Lwb.Unitity.csproj">
-      <Project>{0f755f01-c590-41ca-b5db-4ceeef22399e}</Project>
-      <Name>Lwb.Unitity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
