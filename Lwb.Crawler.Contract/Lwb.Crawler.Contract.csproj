@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Crawl\Model\CrawlTask.cs" />
+    <Compile Include="Crawl\Model\PlotLineState.cs" />
     <Compile Include="ICrawler.cs" />
     <Compile Include="Model\CTask.cs" />
     <Compile Include="Model\Input.cs" />

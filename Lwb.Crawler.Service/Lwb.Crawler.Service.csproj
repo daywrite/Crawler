@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Haina.Core">
+      <HintPath>..\Libs\Haina.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -44,8 +47,14 @@
     <Compile Include="Constant.cs" />
     <Compile Include="CrawlerService.cs" />
     <Compile Include="Crawl\CrawlServer.cs" />
+    <Compile Include="Crawl\DrillBaseRule.cs" />
+    <Compile Include="Crawl\DrillHtmlRule.cs" />
+    <Compile Include="Crawl\DrillRegularRule.cs" />
+    <Compile Include="Crawl\MetaFeild.cs" />
     <Compile Include="Crawl\OpenPlot.cs" />
     <Compile Include="Crawl\PlotWaterLine.cs" />
+    <Compile Include="Crawl\RegScriptTransactor.cs" />
+    <Compile Include="Crawl\TezhenRule.cs" />
     <Compile Include="Db\CrawlDbAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

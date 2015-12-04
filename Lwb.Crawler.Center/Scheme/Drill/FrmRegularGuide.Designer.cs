@@ -300,6 +300,7 @@
             this.linkEndTag.TabIndex = 87;
             this.linkEndTag.TabStop = true;
             this.linkEndTag.Text = "测试标记唯一性";
+            this.linkEndTag.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkEndTag_LinkClicked);
             // 
             // linkStartTag
             // 
@@ -311,6 +312,7 @@
             this.linkStartTag.TabIndex = 86;
             this.linkStartTag.TabStop = true;
             this.linkStartTag.Text = "测试标记唯一性";
+            this.linkStartTag.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkStartTag_LinkClicked);
             // 
             // TxtEndTag
             // 
@@ -359,6 +361,7 @@
             this.btnSave.TabIndex = 81;
             this.btnSave.Text = "保存提取配置";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // TxtName
             // 
@@ -724,6 +727,7 @@
             this.btnTest.Size = new System.Drawing.Size(76, 25);
             this.btnTest.TabIndex = 74;
             this.btnTest.Text = "测试提取";
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // TxtUrlFeatrue
             // 
@@ -864,6 +868,8 @@
             this.Name = "FrmRegularGuide";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "文本提取模式配置向导";
+            this.Load += new System.EventHandler(this.FrmRegularGuide_Load);
+            this.Shown += new System.EventHandler(this.FrmRegularGuide_Shown);
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel8.ResumeLayout(false);
