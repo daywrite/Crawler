@@ -28,6 +28,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{D9E0A314-A95E-492F-8983-92CA944C037C}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\360手机助手Demo-14.2.6更新x2\360手机助手Demo-14.2.6更新x2\360Mobile\360Mobile\bin\Release\CSkin.dll = ..\..\360手机助手Demo-14.2.6更新x2\360手机助手Demo-14.2.6更新x2\360Mobile\360Mobile\bin\Release\CSkin.dll
+		..\..\..\..\GXD工作\刘宁项目\GxdServer\GxdServer\CrawerCenterServer\bin\Debug\Haina.Core.dll = ..\..\..\..\GXD工作\刘宁项目\GxdServer\GxdServer\CrawerCenterServer\bin\Debug\Haina.Core.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "公共类", "公共类", "{D57F07AD-629C-487B-A715-3B58196FD7F1}"
