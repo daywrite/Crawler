@@ -54,13 +54,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawl\Design\FrmRuntime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Crawl\Design\FrmRuntime.Designer.cs">
+      <DependentUpon>FrmRuntime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\CustomBaseServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheme\Drill\FrmRegularFieldGuide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Scheme\Drill\FrmRegularFieldGuide.Designer.cs">
+      <DependentUpon>FrmRegularFieldGuide.cs</DependentUpon>
+    </Compile>
     <Compile Include="Scheme\Drill\FrmRegularGuide.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Scheme\Drill\FrmRegularGuide.Designer.cs">
       <DependentUpon>FrmRegularGuide.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Scheme\FrmPlotInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Scheme\FrmPlotInfo.Designer.cs">
+      <DependentUpon>FrmPlotInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Scheme\FrmPlotWaterLineGuide.cs">
       <SubType>Form</SubType>
@@ -74,6 +93,12 @@
     <Compile Include="Server\FrmServer.Designer.cs">
       <DependentUpon>FrmServer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Server\Main\FrmNewFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Server\Main\FrmNewFolder.Designer.cs">
+      <DependentUpon>FrmNewFolder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Server\Main\frmPageGet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +111,9 @@
     <Compile Include="Server\Main\frmPageManage.Designer.cs">
       <DependentUpon>frmPageManage.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Crawl\Design\FrmRuntime.resx">
+      <DependentUpon>FrmRuntime.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -96,14 +124,23 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Scheme\Drill\FrmRegularFieldGuide.resx">
+      <DependentUpon>FrmRegularFieldGuide.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scheme\Drill\FrmRegularGuide.resx">
       <DependentUpon>FrmRegularGuide.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scheme\FrmPlotInfo.resx">
+      <DependentUpon>FrmPlotInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Scheme\FrmPlotWaterLineGuide.resx">
       <DependentUpon>FrmPlotWaterLineGuide.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Server\FrmServer.resx">
       <DependentUpon>FrmServer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Server\Main\FrmNewFolder.resx">
+      <DependentUpon>FrmNewFolder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Server\Main\frmPageGet.resx">
       <DependentUpon>frmPageGet.cs</DependentUpon>

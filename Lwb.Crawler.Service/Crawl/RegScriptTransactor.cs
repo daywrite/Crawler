@@ -26,7 +26,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="pRule"></param>
         /// <returns></returns>
-        internal string[] GetRecordHtmls(DrillRegularRule pRule)
+        public string[] GetRecordHtmls(DrillRegularRule pRule)
         {
             if (pRule.DrillType == 2)
             {
@@ -50,7 +50,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="pFeildRule"></param>
         /// <returns></returns>
-        internal string Exe(RegularFeildRule pFeildRule)
+        public string Exe(RegularFeildRule pFeildRule)
         {
             int sStart = 0;
             if (pFeildRule.GroupTag != null && pFeildRule.GroupTag.Length > 0)
@@ -90,7 +90,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        internal List<string> ExeStringList(string s)
+        public List<string> ExeStringList(string s)
         {
             List<string> list = new List<string>();
             bool b = true;
@@ -112,7 +112,7 @@ namespace Lwb.Crawler.Service.Crawl
             return list;
         }
 
-        internal int Exe(int pStart, RegularFeildRule pFeildRule, StringBuilder pSb, int pEnd)
+        public int Exe(int pStart, RegularFeildRule pFeildRule, StringBuilder pSb, int pEnd)
         {
             int x = pStart;
             int y = pEnd;
@@ -294,7 +294,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// <param name="pStartTag"></param>
         /// <param name="pEndTag"></param>
         /// <returns></returns>
-        private string GetRegion(string pStartTag, string pEndTag)
+        public string GetRegion(string pStartTag, string pEndTag)
         {
             int x = 0;
             int y = mOriHtml.Length;
@@ -318,7 +318,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// <param name="pSourceUrl"></param>
         /// <param name="pDomain"></param>
         /// <returns></returns>
-        private string GetUrlBase(string pSourceUrl, out string pDomain)
+        public string GetUrlBase(string pSourceUrl, out string pDomain)
         {
             string sUrlBase = pSourceUrl;
             string sDomain = pSourceUrl;
@@ -354,7 +354,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="pReferUrl"></param>
         /// <returns></returns>
-        private string[] GetLinks(string pRegionHtml, string pHost, string pUrlBase)
+        public string[] GetLinks(string pRegionHtml, string pHost, string pUrlBase)
         {
             Dictionary<string, string> sLabelDic = new Dictionary<string, string>();
             int x = pRegionHtml.IndexOf("<a ", StringComparison.OrdinalIgnoreCase);
@@ -384,7 +384,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="pReferUrl"></param>
         /// <returns></returns>
-        private string[] GetImgs(string pRegionHtml, string pHost, string pUrlBase)
+        public string[] GetImgs(string pRegionHtml, string pHost, string pUrlBase)
         {
             Dictionary<string, string> sLabelDic = new Dictionary<string, string>();
             int x = pRegionHtml.IndexOf("<img ", StringComparison.OrdinalIgnoreCase);
@@ -415,7 +415,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         /// <param name="pStart"></param>
         /// <returns></returns>
-        private int GetLabelEnd(string pRegionHtml, out string pDat, int pStart, string pPropertyName)
+        public int GetLabelEnd(string pRegionHtml, out string pDat, int pStart, string pPropertyName)
         {
             pDat = null;
             int sP1 = pStart;
@@ -460,7 +460,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// <summary>
         /// 查找匹配字符,作为一个标签
         /// </summary>
-        private int FindMach(string pRegionHtml, int pStart, char pChr)
+        public int FindMach(string pRegionHtml, int pStart, char pChr)
         {
             int sX = 0;
             for (int i = pStart + 1; i < pRegionHtml.Length; i++)
@@ -522,7 +522,7 @@ namespace Lwb.Crawler.Service.Crawl
             return sUrl;
         }
 
-        internal bool CanExe(DrillRegularRule pDrillRule)
+        public bool CanExe(DrillRegularRule pDrillRule)
         {
             if (pDrillRule.ConditionType == 0)
             {

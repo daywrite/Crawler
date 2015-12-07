@@ -12,12 +12,14 @@ namespace Lwb.Crawler.Service.Crawl
 {
     public class CrawlServer
     {
+        private static object mLocker = new object();
         public static string Root { get; set; }//根目录
         public static string CaseRoot { get; set; }//专案目录
 
 
         public static OpenPlot openPlot = new OpenPlot();
-
+        public static List<OpenPlot> PlotList = new List<OpenPlot>();
+        private static Dictionary<Int128, OpenPlot> mPlotPool = new Dictionary<Int128, OpenPlot>();
         public static bool InitServer(string root)
         {
             Root = root;
@@ -69,6 +71,63 @@ namespace Lwb.Crawler.Service.Crawl
             {
                 //MessageBox.Show(E.Message);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 添加到缓冲池
+        /// </summary>
+        /// <param name="pPlot"></param>
+        public  static void AddPlot2Pool(OpenPlot pPlot)
+        {
+            lock (mLocker)
+            {
+                if (pPlot.Key.IsZero) { pPlot.Key = new Int128(Guid.NewGuid().ToByteArray()); }
+                OpenPlot sTmpPlot;
+                if (mPlotPool.TryGetValue(pPlot.Key, out sTmpPlot) == false)
+                {
+                    pPlot.Prepare();
+                    mPlotPool[pPlot.Key] = pPlot;
+                    PlotList.Add(pPlot);
+                }
+                else if (sTmpPlot != pPlot) //重Key对象
+                {
+                    pPlot.Key = new Int128(Guid.NewGuid().ToByteArray());
+                    pPlot.Prepare();
+                    mPlotPool[pPlot.Key] = pPlot;
+                    PlotList.Add(pPlot);
+                }
+            }
+        }
+        /// <summary>
+        /// 打开专案文件
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static OpenPlot Open(string pFileName)
+        {
+            try
+            {
+                using (FileStream sFileStream = new FileStream(pFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    byte[] sData = new byte[sFileStream.Length];
+                    sFileStream.Read(sData, 0, sData.Length);
+                    if (sData[0] == 2)
+                    {
+                        byte[] sDat = new byte[sData.Length - 1];
+                        Array.Copy(sData, 1, sDat, 0, sDat.Length);
+                        sData = SecurityProvider.ZipDecrypt(sDat);  //解密
+                    }
+                    MemoryStream sReader = new MemoryStream(sData);
+                    XmlSerializer sXmlSerializer = new XmlSerializer(typeof(OpenPlot));
+                    OpenPlot sPlot = (OpenPlot)sXmlSerializer.Deserialize(sReader);
+                    sPlot.FileName = pFileName;
+                    return sPlot;
+                }
+            }
+            catch (Exception E)
+            {
+                return null;
             }
         }
     }

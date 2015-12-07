@@ -140,6 +140,7 @@
             this.btnFeildGuide.TabIndex = 20;
             this.btnFeildGuide.Text = "字段分解";
             this.btnFeildGuide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnFeildGuide.Click += new System.EventHandler(this.btnFeildGuide_Click);
             // 
             // DlgOpen
             // 
@@ -169,6 +170,7 @@
             this.linkMeta.TabIndex = 79;
             this.linkMeta.TabStop = true;
             this.linkMeta.Text = "选择";
+            this.linkMeta.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMeta_LinkClicked);
             // 
             // TxtMeta
             // 
@@ -206,6 +208,7 @@
             this.TxtSpliter.Name = "TxtSpliter";
             this.TxtSpliter.Size = new System.Drawing.Size(158, 21);
             this.TxtSpliter.TabIndex = 64;
+            this.TxtSpliter.TextChanged += new System.EventHandler(this.TxtSpliter_TextChanged);
             // 
             // label6
             // 
@@ -278,6 +281,7 @@
             this.link导出提取模板.TabIndex = 89;
             this.link导出提取模板.TabStop = true;
             this.link导出提取模板.Text = "导出提取模板";
+            this.link导出提取模板.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link导出提取模板_LinkClicked);
             // 
             // link选择提取模板
             // 
@@ -289,6 +293,7 @@
             this.link选择提取模板.TabIndex = 88;
             this.link选择提取模板.TabStop = true;
             this.link选择提取模板.Text = "选择提取模板";
+            this.link选择提取模板.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link选择提取模板_LinkClicked);
             // 
             // linkEndTag
             // 
@@ -391,8 +396,9 @@
             // MenuRegionDelete
             // 
             this.MenuRegionDelete.Name = "MenuRegionDelete";
-            this.MenuRegionDelete.Size = new System.Drawing.Size(100, 22);
+            this.MenuRegionDelete.Size = new System.Drawing.Size(152, 22);
             this.MenuRegionDelete.Text = "删除";
+            this.MenuRegionDelete.Click += new System.EventHandler(this.MenuRegionDelete_Click);
             // 
             // MenuHtml
             // 
@@ -450,6 +456,8 @@
             this.TView1.ShowNodeToolTips = true;
             this.TView1.Size = new System.Drawing.Size(326, 567);
             this.TView1.TabIndex = 5;
+            this.TView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TView1_AfterSelect);
+            this.TView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TView1_MouseDown);
             // 
             // ImgHtml
             // 
@@ -642,6 +650,9 @@
             this.TViewRegion.SelectedImageIndex = 0;
             this.TViewRegion.Size = new System.Drawing.Size(139, 372);
             this.TViewRegion.TabIndex = 54;
+            this.TViewRegion.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.TViewRegion_BeforeSelect);
+            this.TViewRegion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TViewRegion_AfterSelect);
+            this.TViewRegion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TViewRegion_MouseUp);
             // 
             // Img
             // 
@@ -738,6 +749,8 @@
             this.TxtUrlFeatrue.Name = "TxtUrlFeatrue";
             this.TxtUrlFeatrue.Size = new System.Drawing.Size(333, 21);
             this.TxtUrlFeatrue.TabIndex = 73;
+            this.TxtUrlFeatrue.DragDrop += new System.Windows.Forms.DragEventHandler(this.TxtUrlFeatrue_DragDrop);
+            this.TxtUrlFeatrue.DragOver += new System.Windows.Forms.DragEventHandler(this.TxtUrlFeatrue_DragOver);
             // 
             // tabPage7
             // 
@@ -849,6 +862,7 @@
             this.btnNext.Size = new System.Drawing.Size(85, 25);
             this.btnNext.TabIndex = 3;
             this.btnNext.Text = "后一条";
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnPrevious
             // 
@@ -858,6 +872,7 @@
             this.btnPrevious.Size = new System.Drawing.Size(88, 25);
             this.btnPrevious.TabIndex = 1;
             this.btnPrevious.Text = "前一条";
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // FrmRegularGuide
             // 

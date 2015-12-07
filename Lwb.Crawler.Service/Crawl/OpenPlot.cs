@@ -3,25 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Haina.Base;
 using Lwb.Crawler.Contract.Crawl.Model;
 
 namespace Lwb.Crawler.Service.Crawl
 {
+    [Serializable]
     public class OpenPlot
     {
         private object mLocker = new object();
-        public PlotWaterLine Line = new PlotWaterLine();//专案生产线
+        public Int128 Key;                                              //专案的标识 
+        public string Path;										        //专案的存储路径
+        public string Name;											    //专案的名字
+        public string HomePage;										    //专案站点主页
+        public DateTime CreateTime;						                //专案的创建时间
+        public string Creator;											//专案创建者
+        public string Info;											    //专案简介
+        public string Version = "4.0";									//专案版本
+        //public PlotWaterLine Line = new PlotWaterLine();//专案生产线
         public List<PlotWaterLine> Lines = new List<PlotWaterLine>();                  //专案生产线  
         public string FileName;                                                        //专案存储的文件
         private Dictionary<int, PlotWaterLine> mLineDic = new Dictionary<int, PlotWaterLine>();  //生产线字典
         public CrawlTask GetCrawlTask()
         {
-            CrawlTask crawlTask=Line.GetCrawlTask();
+            //CrawlTask crawlTask = Line.GetCrawlTask();
 
-            return crawlTask;
+            //return crawlTask;
+            return null;
         }
 
         #region 生产线相关操作
+        /// <summary>
+        /// 创建新的专案
+        /// </summary>
+        /// <param name="pNo"></param>
+        /// <returns></returns>
+        public static OpenPlot CreatePlot()
+        {
+            OpenPlot sPlot = new OpenPlot();
+            sPlot.Key = new Int128(Guid.NewGuid().ToByteArray());
+            sPlot.CreateTime = DateTime.Now;
+            return sPlot;
+        }
+
         /// <summary>
         /// 创建新的生产线
         /// </summary>
@@ -88,6 +112,32 @@ namespace Lwb.Crawler.Service.Crawl
                 }
                 while (sIsRepeat); //如果重复
                 return sName;
+            }
+        }
+
+        /// <summary>
+        /// 预备工作
+        /// </summary>
+        internal void Prepare()
+        {
+            List<PlotWaterLine> sLines = new List<PlotWaterLine>();
+            lock (mLocker)
+            {
+                mLineDic = new Dictionary<int, PlotWaterLine>();
+                for (int i = Lines.Count - 1; i >= 0; i--)
+                {
+                    Lines[i].Plot = this;                   //关联自身
+                    if (mLineDic.ContainsKey(Lines[i].ID))
+                    {
+                        Lines.RemoveAt(i);                   //若生产线出现ID重复的情况，删除
+                    }
+                    else
+                    {
+                        mLineDic[Lines[i].ID] = Lines[i];
+                        //将流水线初始化
+                        Lines[i].InitWaterLine();
+                    }
+                }
             }
         }
         #endregion
