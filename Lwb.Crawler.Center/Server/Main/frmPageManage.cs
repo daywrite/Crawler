@@ -278,5 +278,65 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
+
+        private void treeV_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.ImageIndex == 0 || e.Node.ImageIndex == 1)
+            {
+                #region 文件夹节点
+                //panelPlot.Visible = false;
+                //LView2.Visible = true;
+                //LView2.Items.Clear();
+                //LView2.Groups.Clear();
+                LoadPlotItem(e.Node, null);
+                #endregion
+            }
+            else
+            {
+                #region 专案
+                //panelPlot.Visible = true;
+                //LView2.Visible = false;
+                listView1.Items.Clear();
+                OpenPlot sPlot = (OpenPlot)e.Node.Tag;
+                #region 加载专案的展示信息
+                if (sPlot.Lines != null && sPlot.Lines.Count > 0)
+                {
+                    for (int i = 0; i < sPlot.Lines.Count; i++)
+                    {
+                        LoadPlotWaterLineItem(sPlot.Lines[i]);
+                    }
+                }
+                #endregion
+                #endregion
+            }
+        }
+        /// <summary>
+        /// 加载专案列表
+        /// </summary>
+        /// <param name="pNode"></param>
+        private void LoadPlotItem(TreeNode pNode, ListViewGroup pGroup)
+        {
+            if (pNode.ImageIndex == 2)
+            {
+                OpenPlot sPlot = (OpenPlot)pNode.Tag;
+                ListViewItem sItem = new ListViewItem(sPlot.Name, 2);
+                sItem.SubItems.Add(sPlot.HomePage);
+                sItem.SubItems.Add(sPlot.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                sItem.SubItems.Add(sPlot.Creator);
+                sItem.SubItems.Add(sPlot.Info);
+                sItem.Tag = sPlot;
+                //LView2.Items.Add(sItem);
+                sItem.Group = pGroup;
+            }
+            else
+            {
+                ListViewGroup sListViewGroup = new ListViewGroup(pNode.FullPath);
+                //LView2.Groups.Add(sListViewGroup);
+                for (int i = 0; i < pNode.Nodes.Count; i++)
+                {
+                    LoadPlotItem(pNode.Nodes[i], sListViewGroup);
+                }
+            }
+        }
     }
 }

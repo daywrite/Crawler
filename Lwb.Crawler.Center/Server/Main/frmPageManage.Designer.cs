@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPageManage));
-            CCWin.SkinControl.Animation animation3 = new CCWin.SkinControl.Animation();
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("网页生产线", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("下载生产线", System.Windows.Forms.HorizontalAlignment.Left);
-            CCWin.SkinControl.Animation animation4 = new CCWin.SkinControl.Animation();
+            CCWin.SkinControl.Animation animation1 = new CCWin.SkinControl.Animation();
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("网页生产线", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("下载生产线", System.Windows.Forms.HorizontalAlignment.Left);
+            CCWin.SkinControl.Animation animation2 = new CCWin.SkinControl.Animation();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeV = new System.Windows.Forms.TreeView();
             this.treeView = new System.Windows.Forms.ImageList(this.components);
@@ -133,6 +133,7 @@
             this.treeV.SelectedImageIndex = 0;
             this.treeV.Size = new System.Drawing.Size(177, 638);
             this.treeV.TabIndex = 0;
+            this.treeV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeV_AfterSelect);
             this.treeV.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeV_MouseDown);
             // 
             // treeView
@@ -145,22 +146,22 @@
             // 
             // tabPlot
             // 
-            animation3.AnimateOnlyDifferences = false;
-            animation3.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.BlindCoeff")));
-            animation3.LeafCoeff = 0F;
-            animation3.MaxTime = 1F;
-            animation3.MinTime = 0F;
-            animation3.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.MosaicCoeff")));
-            animation3.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation3.MosaicShift")));
-            animation3.MosaicSize = 0;
-            animation3.Padding = new System.Windows.Forms.Padding(0);
-            animation3.RotateCoeff = 0F;
-            animation3.RotateLimit = 0F;
-            animation3.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.ScaleCoeff")));
-            animation3.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation3.SlideCoeff")));
-            animation3.TimeCoeff = 2F;
-            animation3.TransparencyCoeff = 0F;
-            this.tabPlot.Animation = animation3;
+            animation1.AnimateOnlyDifferences = false;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 2F;
+            animation1.TransparencyCoeff = 0F;
+            this.tabPlot.Animation = animation1;
             this.tabPlot.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
             this.tabPlot.BackColor = System.Drawing.Color.MediumAquamarine;
             this.tabPlot.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
@@ -233,13 +234,13 @@
             this.column诊断信息});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
-            listViewGroup3.Header = "网页生产线";
-            listViewGroup3.Name = "listViewGroup1";
-            listViewGroup4.Header = "下载生产线";
-            listViewGroup4.Name = "listViewGroup2";
+            listViewGroup1.Header = "网页生产线";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "下载生产线";
+            listViewGroup2.Name = "listViewGroup2";
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Margin = new System.Windows.Forms.Padding(0);
             this.listView1.MultiSelect = false;
@@ -339,22 +340,22 @@
             // 
             // skinTabControl1
             // 
-            animation4.AnimateOnlyDifferences = false;
-            animation4.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.BlindCoeff")));
-            animation4.LeafCoeff = 0F;
-            animation4.MaxTime = 1F;
-            animation4.MinTime = 0F;
-            animation4.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.MosaicCoeff")));
-            animation4.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation4.MosaicShift")));
-            animation4.MosaicSize = 0;
-            animation4.Padding = new System.Windows.Forms.Padding(0);
-            animation4.RotateCoeff = 0F;
-            animation4.RotateLimit = 0F;
-            animation4.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.ScaleCoeff")));
-            animation4.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation4.SlideCoeff")));
-            animation4.TimeCoeff = 2F;
-            animation4.TransparencyCoeff = 0F;
-            this.skinTabControl1.Animation = animation4;
+            animation2.AnimateOnlyDifferences = false;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 2F;
+            animation2.TransparencyCoeff = 0F;
+            this.skinTabControl1.Animation = animation2;
             this.skinTabControl1.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
             this.skinTabControl1.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
             this.skinTabControl1.Controls.Add(this.tabPage3);
@@ -527,7 +528,7 @@
             this.MenuPlotLine.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
             this.MenuPlotLine.Name = "MenuPlotLine";
             this.MenuPlotLine.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-            this.MenuPlotLine.Size = new System.Drawing.Size(153, 270);
+            this.MenuPlotLine.Size = new System.Drawing.Size(149, 248);
             this.MenuPlotLine.SkinAllColor = true;
             this.MenuPlotLine.TitleAnamorphosis = true;
             this.MenuPlotLine.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -602,7 +603,7 @@
             // MenuPlotLine启动
             // 
             this.MenuPlotLine启动.Name = "MenuPlotLine启动";
-            this.MenuPlotLine启动.Size = new System.Drawing.Size(152, 22);
+            this.MenuPlotLine启动.Size = new System.Drawing.Size(148, 22);
             this.MenuPlotLine启动.Text = "启动";
             this.MenuPlotLine启动.Click += new System.EventHandler(this.MenuPlotLine启动_Click);
             // 
