@@ -96,7 +96,7 @@ namespace Lwb.Crawler.Service.Crawl
             lock (mLocker)
             {
                 PlotWaterLine sPlotWaterLine = new PlotWaterLine();
-                sPlotWaterLine.Plot = this;
+                //sPlotWaterLine.Plot = this;
                 sPlotWaterLine.ID = GetLineID();
                 sPlotWaterLine.InitWaterLine();
                 sPlotWaterLine.IsFileLine = pIsFileLine;
@@ -166,7 +166,7 @@ namespace Lwb.Crawler.Service.Crawl
                 mLineDic = new Dictionary<int, PlotWaterLine>();
                 for (int i = Lines.Count - 1; i >= 0; i--)
                 {
-                    Lines[i].Plot = this;                   //关联自身
+                    //Lines[i].Plot = this;                   //关联自身
                     if (mLineDic.ContainsKey(Lines[i].ID))
                     {
                         Lines.RemoveAt(i);                   //若生产线出现ID重复的情况，删除

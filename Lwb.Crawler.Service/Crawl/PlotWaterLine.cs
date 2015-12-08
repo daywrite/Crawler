@@ -19,6 +19,7 @@ namespace Lwb.Crawler.Service.Crawl
     {
         private object mLocker = new object();
         private bool mExit;
+        public OpenPlot Plot;
         public string Host { get; set; }//主机名域名缓存的文件名
         public int PRI = 1;                                     //调度优先级  
         public string BaseURL;							        //请求基本的URL
@@ -69,7 +70,7 @@ namespace Lwb.Crawler.Service.Crawl
             {
                 if (mOriDataCacheDbName == null)
                 {
-                    mOriDataCacheDbName = Plot.Name + "_" + Name;
+                    mOriDataCacheDbName = "123" + "_" + Name;
                 }
                 return mOriDataCacheDbName;
             }
@@ -86,7 +87,7 @@ namespace Lwb.Crawler.Service.Crawl
         public int RunSpan = 120;                               //循环周期
         #region 获取监视信息
        
-        public OpenPlot Plot { get; set; }
+        //public OpenPlot Plot { get; set; }
         
         #endregion
         private ConcurrentQueue<CrawlTaskDetail> taskDetailWaitHandOutQueue = new ConcurrentQueue<CrawlTaskDetail>();//待分发的任务队列

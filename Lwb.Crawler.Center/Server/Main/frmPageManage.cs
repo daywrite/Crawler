@@ -155,7 +155,7 @@ namespace Lwb.Crawler.Center.Server.Main
                 FrmPlotWaterLineGuide sFrmPlotWaterLineGuide = new FrmPlotWaterLineGuide(sPlotLine);
                 if (sFrmPlotWaterLineGuide.ShowDialog() == DialogResult.OK)
                 {
-                    sPlotLine.Plot = sPlot;
+                    //sPlotLine.Plot = sPlot;
                     LoadPlotWaterLineItem(sPlotLine);
                     CrawlServer.Save(sPlot);
                 }
