@@ -34,12 +34,12 @@ namespace Lwb.Crawler.Service.Crawl
             List<CrawlTask> sList = new List<CrawlTask>();
 
 
-            CrawlTask crawlTask = openPlot.GetCrawlTask();
+            CrawlTask crawlTask = openPlot.GetCrawlTask(1, null, 1);
             if (crawlTask != null)
             {
                 sList.Add(crawlTask);
             }
-            
+
             return sList;
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// 添加到缓冲池
         /// </summary>
         /// <param name="pPlot"></param>
-        public  static void AddPlot2Pool(OpenPlot pPlot)
+        public static void AddPlot2Pool(OpenPlot pPlot)
         {
             lock (mLocker)
             {

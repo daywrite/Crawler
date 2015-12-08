@@ -12,6 +12,7 @@ namespace Lwb.Crawler.Service.Crawl
     public class OpenPlot
     {
         private object mLocker = new object();
+        private int mStartPos;
         public Int128 Key;                                              //专案的标识 
         public string Path;										        //专案的存储路径
         public string Name;											    //专案的名字
@@ -20,15 +21,54 @@ namespace Lwb.Crawler.Service.Crawl
         public string Creator;											//专案创建者
         public string Info;											    //专案简介
         public string Version = "4.0";									//专案版本
-        //public PlotWaterLine Line = new PlotWaterLine();//专案生产线
-        public List<PlotWaterLine> Lines = new List<PlotWaterLine>();                  //专案生产线  
-        public string FileName;                                                        //专案存储的文件
-        private Dictionary<int, PlotWaterLine> mLineDic = new Dictionary<int, PlotWaterLine>();  //生产线字典
-        public CrawlTask GetCrawlTask()
-        {
-            //CrawlTask crawlTask = Line.GetCrawlTask();
 
-            //return crawlTask;
+        public List<PlotWaterLine> Lines = new List<PlotWaterLine>();                                   //专案生产线  
+        public string FileName;                                                                         //专案存储的文件
+        private Dictionary<int, PlotWaterLine> mLineDic = new Dictionary<int, PlotWaterLine>();         //生产线字典
+        public CrawlTask GetCrawlTask(int pPRI, Dictionary<string, string> pHostDic, uint pIp)
+        {
+            int sStartPos = mStartPos;        //生产线机会均等
+            for (int i = sStartPos; i < Lines.Count; i++)
+            {
+                try
+                {
+                    PlotWaterLine sPlotWaterLine = Lines[i];
+                    if (sPlotWaterLine.PRI == pPRI)
+                    {
+                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask();
+                        if (sCrawlTask != null)
+                        {
+                            if (i + 1 < Lines.Count)
+                            {
+                                mStartPos = i + 1;
+                            }
+                            else
+                            {
+                                mStartPos = 0;
+                            }
+                            return sCrawlTask;
+                        }
+                    }
+                }
+                catch { }
+            }
+            for (int i = 0; i < sStartPos; i++)
+            {
+                try
+                {
+                    PlotWaterLine sPlotWaterLine = Lines[i];
+                    if (sPlotWaterLine.PRI == pPRI)
+                    {
+                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask();
+                        if (sCrawlTask != null)
+                        {
+                            mStartPos = i + 1;
+                            return sCrawlTask;
+                        }
+                    }
+                }
+                catch { }
+            }
             return null;
         }
 

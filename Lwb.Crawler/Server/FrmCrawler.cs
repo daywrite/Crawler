@@ -23,14 +23,14 @@ namespace Lwb.Crawler.Server
 
         private void FrmCrawler_Load(object sender, EventArgs e)
         {
-            using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
-            {
-                ICrawler proxy = channelFactory.CreateChannel();
-                using (proxy as IDisposable)
-                {
-                    Console.WriteLine(proxy.Add(1, 1).ToString());
-                }
-            }
+            //using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
+            //{
+            //    ICrawler proxy = channelFactory.CreateChannel();
+            //    using (proxy as IDisposable)
+            //    {
+            //        Console.WriteLine(proxy.Add(1, 1).ToString());
+            //    }
+            //}
         }
     }
 }

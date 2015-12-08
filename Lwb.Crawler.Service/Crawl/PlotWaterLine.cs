@@ -10,16 +10,17 @@ using Lwb.Crawler.Contract.Crawl.Model;
 using Lwb.Crawler.Service.Db;
 using Haina.Crawl.OpenCase.Meta;
 using Haina.Base;
+using Lwb.Crawler.Contract.Model;
 
 namespace Lwb.Crawler.Service.Crawl
 {
-     [Serializable]
+    [Serializable]
     public class PlotWaterLine
     {
         private object mLocker = new object();
         private bool mExit;
-        public OpenPlot mPlot;
         public string Host { get; set; }//主机名域名缓存的文件名
+        public int PRI = 1;                                     //调度优先级  
         public string BaseURL;							        //请求基本的URL
         public string Method = "GET";					        //请求的发送方,Get，Post，File
         public string Accept;
@@ -57,7 +58,7 @@ namespace Lwb.Crawler.Service.Crawl
         internal volatile int mRecordWaitSubmitCount;          //提取到数据等待存储到中心服务器的数据
         internal volatile int mErrCount;                       //出错信息数
         #endregion
-        public CrawlDbAdapter crawlDbAdapter = new CrawlDbAdapter();
+        private CrawlDbAdapter crawlDbAdapter = new CrawlDbAdapter();
         private string mOriDataCacheDbName;
         /// <summary>
         /// 生产线的名称
@@ -68,7 +69,7 @@ namespace Lwb.Crawler.Service.Crawl
             {
                 if (mOriDataCacheDbName == null)
                 {
-                    mOriDataCacheDbName = mPlot.Name + "_" + Name;
+                    mOriDataCacheDbName = Plot.Name + "_" + Name;
                 }
                 return mOriDataCacheDbName;
             }
@@ -84,17 +85,9 @@ namespace Lwb.Crawler.Service.Crawl
         public DateTime CanStartDate = DateTime.Now;            //可以开始调度的时刻
         public int RunSpan = 120;                               //循环周期
         #region 获取监视信息
-        public OpenPlot Plot
-        {
-            get
-            {
-                return mPlot;
-            }
-            set
-            {
-                mPlot = value;
-            }
-        }
+       
+        public OpenPlot Plot { get; set; }
+        
         #endregion
         private ConcurrentQueue<CrawlTaskDetail> taskDetailWaitHandOutQueue = new ConcurrentQueue<CrawlTaskDetail>();//待分发的任务队列
         internal CrawlTask GetCrawlTask()
@@ -124,7 +117,7 @@ namespace Lwb.Crawler.Service.Crawl
         }
         public void InitWaterLine()
         {
-            
+
         }
         public string Url
         {
@@ -204,13 +197,20 @@ namespace Lwb.Crawler.Service.Crawl
                 }
             }
         }
-        internal void Start()
+        #region 生产线启动-停止
+        public void Start()
         {
             mExit = false;
-            mState = 1;
+            mState = (int)WaterLineState.Start;
         }
+        #endregion
         private CrawlTask CreateCrawlTask(List<CrawlTaskDetail> pTaskDetailList)
         {
+            if (mState == (int)WaterLineState.Stop)
+            {
+                return null;
+            }
+
             CrawlTask sCrawlTask = new CrawlTask();
             sCrawlTask.List = pTaskDetailList;
             return sCrawlTask;

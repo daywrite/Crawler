@@ -46,6 +46,7 @@
     <Compile Include="Crawl\Model\PlotLineState.cs" />
     <Compile Include="ICrawler.cs" />
     <Compile Include="Model\CTask.cs" />
+    <Compile Include="Model\Enum\PlotEnum.cs" />
     <Compile Include="Model\Input.cs" />
     <Compile Include="Model\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
