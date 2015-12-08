@@ -11,6 +11,7 @@ using Lwb.Crawler.Service.Db;
 using Haina.Crawl.OpenCase.Meta;
 using Haina.Base;
 using Lwb.Crawler.Contract.Model;
+using System.Xml.Serialization;
 
 namespace Lwb.Crawler.Service.Crawl
 {
@@ -19,6 +20,7 @@ namespace Lwb.Crawler.Service.Crawl
     {
         private object mLocker = new object();
         private bool mExit;
+        [XmlIgnore]
         public OpenPlot Plot;
         public string Host { get; set; }//主机名域名缓存的文件名
         public int PRI = 1;                                     //调度优先级  
