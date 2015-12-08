@@ -13,6 +13,7 @@ namespace Lwb.Crawler.Service.Crawl
     public class CrawlServer
     {
         private static object mLocker = new object();
+        private static int mStartPos;
         public static string Root { get; set; }//根目录
         public static string CaseRoot { get; set; }//专案目录
 
@@ -29,16 +30,57 @@ namespace Lwb.Crawler.Service.Crawl
 
             return false;
         }
-        internal static List<CrawlTask> GetCrawlTasks()
+        internal static List<CrawlTask> GetCrawlTasks(Dictionary<string, string> pHostDic, uint pIp, int pMax)
         {
             List<CrawlTask> sList = new List<CrawlTask>();
-
-
-            CrawlTask crawlTask = openPlot.GetCrawlTask(1, null, 1);
-            if (crawlTask != null)
+            CrawlTask sCrawlTask;
+            for (int i = 2; i >= 0; i--)
             {
-                sList.Add(crawlTask);
+                OpenPlot sOpenPlot;
+                int sStartPos = mStartPos;
+                for (int j = sStartPos; j < PlotList.Count; j++)
+                {
+                    try { sOpenPlot = PlotList[j]; }
+                    catch { break; }      //防止mPlotList的变化，导致出错
+                    sCrawlTask = sOpenPlot.GetCrawlTask(i, pHostDic, pIp);
+                    if (sCrawlTask != null)
+                    {
+                        sList.Add(sCrawlTask);
+                        if (sList.Count >= pMax)
+                        {
+                            if (j + 1 < PlotList.Count)
+                            {
+                                mStartPos = j + 1;
+                            }
+                            else
+                            {
+                                mStartPos = 0;
+                            }
+                            return sList;
+                        }
+                    }
+                }
+                for (int j = 0; j < sStartPos; j++)
+                {
+                    try { sOpenPlot = PlotList[j]; }
+                    catch { break; }       //防止mPlotList的变化，导致出错
+                    sCrawlTask = sOpenPlot.GetCrawlTask(i, pHostDic, pIp);
+                    if (sCrawlTask != null)
+                    {
+                        sList.Add(sCrawlTask);
+                        if (sList.Count >= pMax)
+                        {
+                            mStartPos = j + 1;
+                            return sList;
+                        }
+                    }
+                }
             }
+            //CrawlTask crawlTask = openPlot.GetCrawlTask(1, null, 1);
+            //if (crawlTask != null)
+            //{
+            //    sList.Add(crawlTask);
+            //}
 
             return sList;
         }

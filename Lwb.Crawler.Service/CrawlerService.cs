@@ -39,7 +39,7 @@ namespace Lwb.Crawler.Service
         {
             if (input.Type == 3)
             {
-                return CrawlServer.GetCrawlTasks();
+                return CrawlServer.GetCrawlTasks(null, 1, 1);
             }
 
             return null;
