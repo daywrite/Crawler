@@ -44,5 +44,10 @@ namespace Lwb.Crawler.Service
 
             return null;
         }
+
+        public void ReceiveCrawlResult(CrawlResult pCrawlResult)
+        {
+            CrawlServer.ReceiveCrawlResult(pCrawlResult);
+        }
     }
 }

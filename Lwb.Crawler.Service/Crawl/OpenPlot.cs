@@ -72,6 +72,18 @@ namespace Lwb.Crawler.Service.Crawl
             return null;
         }
 
+        internal void RecieveCrawlResult(CrawlResult pResult)
+        {
+            PlotWaterLine sPlotWaterLine;
+            lock (mLocker)
+            {
+                if (mLineDic.TryGetValue(pResult.LineID, out sPlotWaterLine) == false)  //丢弃任务
+                {
+                    return;
+                }
+            }
+            sPlotWaterLine.RecieveCrawlResult(pResult);
+        }
         #region 生产线相关操作
         /// <summary>
         /// 创建新的专案

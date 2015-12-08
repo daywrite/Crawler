@@ -33,6 +33,24 @@ namespace Lwb.Crawler
             }
         }
 
+        public static void SendCrawlResult(CrawlResult pCrawlResult)
+        {
+            try
+            {
+                using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
+                {
+                    ICrawler proxy = channelFactory.CreateChannel();
+                    using (proxy as IDisposable)
+                    {
+                        proxy.ReceiveCrawlResult(pCrawlResult);
+                    }
+                }
+            }
+            catch (Exception E)
+            {
+
+            }
+        }
     }
 
     public class HainaResultInfo<TEntity>

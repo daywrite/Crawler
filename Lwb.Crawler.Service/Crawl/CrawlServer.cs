@@ -84,6 +84,19 @@ namespace Lwb.Crawler.Service.Crawl
 
             return sList;
         }
+
+        internal static void ReceiveCrawlResult(CrawlResult pCrawlResult)
+        {
+            OpenPlot sOpenPlot;
+            lock (mLocker)
+            {
+                if (mPlotPool.TryGetValue(pCrawlResult.PlotKey, out sOpenPlot) == false)
+                {
+                    return;
+                }
+            }
+            sOpenPlot.RecieveCrawlResult(pCrawlResult);
+        }
         /// <summary>
         /// 保存专案
         /// </summary>

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Haina.Core">
+      <HintPath>..\Libs\Haina.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -42,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawl\Model\CrawlResult.cs" />
     <Compile Include="Crawl\Model\CrawlTask.cs" />
     <Compile Include="Crawl\Model\PlotLineState.cs" />
     <Compile Include="ICrawler.cs" />

@@ -28,7 +28,6 @@ namespace Lwb.Crawler
                 {
                     ExecuteTask(index);
                 }
-                //Console.WriteLine(sTaskList.Content.Count);
             }
             else
             {
@@ -40,6 +39,8 @@ namespace Lwb.Crawler
         {
             CrawlTask sCrawlTask = (CrawlTask)obj;
 
+            CrawlResult sCrawlResult = new CrawlResult();
+
             foreach (var index in sCrawlTask.List)
             {
                 item.URL = index.Url;
@@ -47,10 +48,11 @@ namespace Lwb.Crawler
 
                 result = httpHelper.GetHtml(item);
 
-                Console.WriteLine(result.Html);
+                sCrawlResult.List.Add(new CrawlResultDetail { ID = index.ID,Content = result.Html });
+                //Console.WriteLine(result.Html);
             }
 
-            //WCFServer.SendCrawlResult(1);
+            WCFServer.SendCrawlResult(sCrawlResult);
         }
     }
 }

@@ -21,5 +21,8 @@ namespace Lwb.Crawler.Contract
 
         [OperationContract]
         List<CrawlTask> QueryCrawlTask(Input input);
+
+        [OperationContract]
+        void ReceiveCrawlResult(CrawlResult pCrawlResult);
     }
 }

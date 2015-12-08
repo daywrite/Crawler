@@ -89,10 +89,13 @@ namespace Lwb.Crawler.Service.Crawl
         public int RunSpan = 120;                               //循环周期
         #region 获取监视信息
        
-        //public OpenPlot Plot { get; set; }
-        
         #endregion
         private ConcurrentQueue<CrawlTaskDetail> taskDetailWaitHandOutQueue = new ConcurrentQueue<CrawlTaskDetail>();//待分发的任务队列
+        
+        /// <summary>
+        /// 获取一个任务包
+        /// </summary>
+        /// <returns></returns>
         internal CrawlTask GetCrawlTask()
         {
             List<CrawlTaskDetail> taskDetailList = new List<CrawlTaskDetail>();
@@ -117,6 +120,33 @@ namespace Lwb.Crawler.Service.Crawl
             }
 
             return null;
+        }
+        
+        /// <summary>
+        /// 将任务实体类列表封装成一个任务包
+        /// </summary>
+        /// <param name="pTaskDetailList"></param>
+        /// <returns></returns>
+        private CrawlTask CreateCrawlTask(List<CrawlTaskDetail> pTaskDetailList)
+        {
+            if (mState == (int)WaterLineState.Stop)
+            {
+                return null;
+            }
+            //实例化任务包
+            CrawlTask sCrawlTask = new CrawlTask();
+
+            sCrawlTask.Host = Host;
+            sCrawlTask.PlotKey = Plot.Key;
+            sCrawlTask.LineID = ID;
+
+            sCrawlTask.List = pTaskDetailList;
+            return sCrawlTask;
+        }
+
+        internal void RecieveCrawlResult(CrawlResult pResult)
+        {
+            Console.WriteLine(pResult.List.FirstOrDefault().Content);
         }
         public void InitWaterLine()
         {
@@ -207,16 +237,6 @@ namespace Lwb.Crawler.Service.Crawl
             mState = (int)WaterLineState.Start;
         }
         #endregion
-        private CrawlTask CreateCrawlTask(List<CrawlTaskDetail> pTaskDetailList)
-        {
-            if (mState == (int)WaterLineState.Stop)
-            {
-                return null;
-            }
-
-            CrawlTask sCrawlTask = new CrawlTask();
-            sCrawlTask.List = pTaskDetailList;
-            return sCrawlTask;
-        }
+        
     }
 }
