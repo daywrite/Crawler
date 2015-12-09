@@ -40,10 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Result\IOSharpResult.cs" />
+    <Compile Include="Data\Result\OperationResult.cs" />
+    <Compile Include="Data\Result\OperationResultType.cs" />
+    <Compile Include="Data\Result\OSharpResult.cs" />
     <Compile Include="File\DirFileHelper.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

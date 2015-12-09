@@ -12,13 +12,7 @@ namespace Lwb.Crawler.Contract
 {
     [ServiceContract]
     public interface ICrawler
-    {
-        [OperationContract]
-        double Add(double x, double y);
-
-        [OperationContract]
-        List<CTask> Query(Input input);
-
+    {       
         [OperationContract]
         List<CrawlTask> QueryCrawlTask(Input input);
 
