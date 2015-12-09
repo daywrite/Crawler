@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DotNet4.Utilities;
 using Lwb.Crawler;
 using Lwb.Crawler.Contract.Crawl.Model;
+using Lwb.Crawler.Contract.Model;
 namespace Lwb.Crawler
 {
     public class CrawlerManager
@@ -17,6 +18,22 @@ namespace Lwb.Crawler
         {
             httpHelper = new HttpHelper();
             item = new HttpItem();
+        }
+
+        public static LwbResult DbAdapter()
+        {
+            LwbResult sLwbResult = WCFServer.GetCrawlTask(null);
+
+            List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
+            if (sCrawlTaskList == null)
+                return new LwbResult(LwbResultType.Error,"爬虫抓取返回数据格式错误");
+
+            if (sCrawlTaskList.Count != 0)
+            {
+                Console.WriteLine("还没有任务哦");
+            }
+
+            return null;
         }
 
         public static void Adapter()
@@ -51,7 +68,7 @@ namespace Lwb.Crawler
                 sCrawlResult.PlotKey = sCrawlTask.PlotKey;
                 sCrawlResult.LineID = sCrawlTask.LineID;
 
-                sCrawlResult.List.Add(new CrawlResultDetail { ID = index.ID,Content = result.Html });
+                sCrawlResult.List.Add(new CrawlResultDetail { ID = index.ID, Content = result.Html });
                 //Console.WriteLine(result.Html);
             }
 

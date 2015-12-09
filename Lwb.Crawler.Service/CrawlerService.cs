@@ -11,6 +11,9 @@ using Lwb.Crawler.Contract;
 using Lwb.Crawler.Contract.Model;
 using Lwb.Crawler.Contract.Crawl.Model;
 using Lwb.Crawler.Service.Crawl;
+using Lwb.Unitity.Data;
+using System.Runtime.Remoting.Messaging;
+using Haina.Base;
 
 namespace Lwb.Crawler.Service
 {
@@ -18,7 +21,47 @@ namespace Lwb.Crawler.Service
     /// Wcf服务器数据交互接口
     /// </summary>
     public class CrawlerService : ICrawler
-    {        
+    {       
+        public LwbResult LwbEach(LwbInput pLwbInput)
+        {
+            //参数为null，不合法，返回null
+            if (pLwbInput == null)
+                return new LwbResult(LwbResultType.QueryNull);
+
+            //获取调用者的Ip，并将Ip整数化
+            uint sIntIp = IpV4Converter.ToInt((string)CallContext.GetData("Cip") ?? "127.0.0.1");
+
+            try
+            {
+                if (pLwbInput.Type == (int)CrawlCmd.获取生产线任务列表)
+                {
+                    var sInput获取生产线任务列表 = pLwbInput.Data as Input获取生产线任务列表;
+                    if (sInput获取生产线任务列表 == null)
+                        return new LwbResult(LwbResultType.Error, "获取生产线任务列表-传入实体类格式有误");
+
+                    Dictionary<string, string> sDic = new Dictionary<string, string>();
+                    List<string> sIn列表 = sInput获取生产线任务列表.RuningTaskHost;
+
+                    if (sIn列表 != null && sIn列表.Count > 0)
+                    {
+                        sIn列表.ForEach(t => sDic[t.ToString()] = t);
+                    }
+
+                    return new LwbResult(LwbResultType.Success,
+                        "获取生产线任务列表成功",
+                        CrawlServer.GetCrawlTasks(sDic, sIntIp, sInput获取生产线任务列表.TaskMax));
+                }
+                else
+                {
+                    return new LwbResult(LwbResultType.Error, "获取生产线任务列表-传入【Type】有误");
+                }
+            }
+            catch (Exception ee)
+            {
+                return new LwbResult(LwbResultType.Error, ee.Message);
+            }
+
+        }
         public List<CrawlTask> QueryCrawlTask(Input input)
         {
             if (input.Type == 3)
@@ -33,7 +76,5 @@ namespace Lwb.Crawler.Service
         {
             CrawlServer.ReceiveCrawlResult(pCrawlResult);
         }
-
-        
     }
 }

@@ -50,10 +50,19 @@
     <Compile Include="Crawl\Model\PlotLineState.cs" />
     <Compile Include="ICrawler.cs" />
     <Compile Include="Model\CTask.cs" />
+    <Compile Include="Model\Entity\LwbInput.cs" />
+    <Compile Include="Model\Entity\LwbResult.cs" />
+    <Compile Include="Model\Entity\LwbResultType.cs" />
+    <Compile Include="Model\Enum\CrawlEnum.cs" />
     <Compile Include="Model\Enum\PlotEnum.cs" />
     <Compile Include="Model\Input.cs" />
-    <Compile Include="Model\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lwb.Unitity\Lwb.Unitity.csproj">
+      <Project>{0f755f01-c590-41ca-b5db-4ceeef22399e}</Project>
+      <Name>Lwb.Unitity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
