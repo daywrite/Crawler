@@ -127,7 +127,7 @@ namespace Lwb.Crawler.Center.Server.Main
                 FrmPlotInfo sFrmPlotInfo = new FrmPlotInfo(sPlot, true);
                 if (sFrmPlotInfo.ShowDialog() == DialogResult.OK)
                 {
-                string sFileName = treeV.SelectedNode.Tag.ToString() + "\\" + sPlot.Name + ".opp";
+                    string sFileName = treeV.SelectedNode.Tag.ToString() + "\\" + sPlot.Name + ".opp";
                     if (CrawlServer.SaveAs(sFileName, sPlot))
                     {
                         TreeNode sNode = new TreeNode(sPlot.Name, 2, 2);
@@ -164,8 +164,8 @@ namespace Lwb.Crawler.Center.Server.Main
                     //sPlot.Remove(sPlotLine);
                 }
             }
-            
-            
+
+
         }
 
         /// <summary>

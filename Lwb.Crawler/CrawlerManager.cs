@@ -48,6 +48,9 @@ namespace Lwb.Crawler
 
                 result = httpHelper.GetHtml(item);
 
+                sCrawlResult.PlotKey = sCrawlTask.PlotKey;
+                sCrawlResult.LineID = sCrawlTask.LineID;
+
                 sCrawlResult.List.Add(new CrawlResultDetail { ID = index.ID,Content = result.Html });
                 //Console.WriteLine(result.Html);
             }
