@@ -51,6 +51,18 @@ namespace Lwb.Crawler.Service
                         "获取生产线任务列表成功",
                         CrawlServer.GetCrawlTasks(sDic, sIntIp, sInput获取生产线任务列表.TaskMax));
                 }
+                else if (pLwbInput.Type == (int)CrawlCmd.发送爬行任务)
+                {
+                    var sCrawlResult = pLwbInput.Data as CrawlResult;
+                    if (sCrawlResult == null)
+                        return new LwbResult(LwbResultType.Error, "获取爬虫回送任务失败");
+
+                    sCrawlResult.IP = sIntIp;
+
+                    CrawlServer.ReceiveCrawlResult(sCrawlResult);
+
+                    return new LwbResult(LwbResultType.Success, "获取爬虫回送任务成功");
+                }
                 else
                 {
                     return new LwbResult(LwbResultType.Error, "获取生产线任务列表-传入【Type】有误");

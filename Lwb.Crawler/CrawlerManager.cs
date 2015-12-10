@@ -130,7 +130,7 @@ namespace Lwb.Crawler
                 sCrawlResult.LineID = sCrawlTask.LineID;
                 sCrawlResult.List.Add(new CrawlResultDetail { ID = t.ID, Content = result.Html });
             });
-            WCFServer.SendCrawlResult(sCrawlResult);
+            WCFServer.SendingCrawlResult(sCrawlResult);
         }
 
         public static void Adapter()

@@ -48,6 +48,11 @@ namespace Lwb.Crawler
         /// 爬虫获取到html发送回服务中心
         /// </summary>
         /// <param name="pCrawlResult"></param>
+        public static void SendingCrawlResult(CrawlResult pCrawlResult)
+        {
+            LwbProcess(pCrawlResult, (int)CrawlCmd.发送爬行任务, null);
+        }
+        
         public static void SendCrawlResult(CrawlResult pCrawlResult)
         {
             try
@@ -86,7 +91,7 @@ namespace Lwb.Crawler
             {
                 return null;
             }
-        }        
+        }
     }
 
     public class HainaResultInfo<TEntity>
