@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,7 +60,7 @@
     <Compile Include="Crawl\Parameter.cs" />
     <Compile Include="Crawl\ParaRefer.cs" />
     <Compile Include="Crawl\ParaSourceRunTime.cs" />
-    <Compile Include="Crawl\PlotWaterLine.cs" />
+    <Compile Include="Crawl\Line\PlotWaterLine.cs" />
     <Compile Include="Crawl\RegScriptTransactor.cs" />
     <Compile Include="Crawl\TezhenRule.cs" />
     <Compile Include="Db\CrawlDbAdapter.cs" />

@@ -136,8 +136,8 @@ namespace Lwb.Crawler.Service.Crawl
             //实例化任务包
             CrawlTask sCrawlTask = new CrawlTask();
 
-            sCrawlTask.Host = Host;
-            sCrawlTask.PlotKey = Plot.Key;
+            sCrawlTask.Host = Host;//任务包的主页地址
+            sCrawlTask.PlotKey = Plot.Key;//专案的Key作为任务包的PlotKey
             sCrawlTask.LineID = ID;
 
             sCrawlTask.List = pTaskDetailList;

@@ -14,6 +14,8 @@ using Lwb.Crawler.Service.Crawl;
 using Lwb.Unitity.Data;
 using System.Runtime.Remoting.Messaging;
 using Haina.Base;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 
 namespace Lwb.Crawler.Service
 {
@@ -29,7 +31,11 @@ namespace Lwb.Crawler.Service
                 return new LwbResult(LwbResultType.QueryNull);
 
             //获取调用者的Ip，并将Ip整数化
-            uint sIntIp = IpV4Converter.ToInt((string)CallContext.GetData("Cip") ?? "127.0.0.1");
+            OperationContext context = OperationContext.Current;
+            MessageProperties properties = context.IncomingMessageProperties;
+            RemoteEndpointMessageProperty endpoint = properties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+
+            uint sIntIp = IpV4Converter.ToInt((string)endpoint.Address ?? "127.0.0.1");
 
             try
             {
