@@ -4,10 +4,13 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Lwb.Crawler.Contract.Crawl.Model;
 
 namespace Lwb.Crawler.Contract.Model
 {
     [DataContract]
+    [KnownType(typeof(Input获取生产线任务列表))]
+    [KnownType(typeof(CrawlResult))]
     public class LwbInput
     {
 

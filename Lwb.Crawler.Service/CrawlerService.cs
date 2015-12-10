@@ -21,9 +21,9 @@ namespace Lwb.Crawler.Service
     /// Wcf服务器数据交互接口
     /// </summary>
     public class CrawlerService : ICrawler
-    {       
+    {      
         public LwbResult LwbEach(LwbInput pLwbInput)
-        {
+        {           
             //参数为null，不合法，返回null
             if (pLwbInput == null)
                 return new LwbResult(LwbResultType.QueryNull);

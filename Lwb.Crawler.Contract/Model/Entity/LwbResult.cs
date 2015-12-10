@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-
+using Lwb.Crawler.Contract.Crawl.Model;
 using Lwb.Unitity.Data;
 
 namespace Lwb.Crawler.Contract.Model
@@ -11,6 +12,8 @@ namespace Lwb.Crawler.Contract.Model
     /// <summary>
     /// 业务操作结果信息类，对操作结果进行封装
     /// </summary>
+    [DataContract]
+    [KnownType(typeof(List<CrawlTask>))]
     public class LwbResult
     {
 
@@ -37,16 +40,19 @@ namespace Lwb.Crawler.Contract.Model
         /// <summary>
         /// 获取或设置 结果类型
         /// </summary>
+        [DataMember]
         public LwbResultType ResultType { get; set; }
 
         /// <summary>
         /// 获取或设置 返回消息
         /// </summary>
+        [DataMember]
         public string Message { get; set; }
 
         /// <summary>
         /// 获取或设置 结果数据
         /// </summary>
+        [DataMember]
         public object Data { get; set; }
     }
 }
