@@ -36,7 +36,7 @@ namespace Lwb.Crawler
         /// <param name="e"></param>
         static void mTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            CrawlerManager.Adapter();
+            CrawlerManager.DbAdapter();
         }
     }
 }
