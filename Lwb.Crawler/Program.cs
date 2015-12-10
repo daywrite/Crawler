@@ -21,10 +21,10 @@ namespace Lwb.Crawler
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            mTimer = new System.Timers.Timer(10000);
-            mTimer.Elapsed += new System.Timers.ElapsedEventHandler(mTimer_Elapsed);
-            mTimer.Start();
-            //CrawlerManager.Adapter();
+            //mTimer = new System.Timers.Timer(10000);
+            //mTimer.Elapsed += new System.Timers.ElapsedEventHandler(mTimer_Elapsed);
+            //mTimer.Start();
+            CrawlerManager.DbAdapter();
 
             Application.Run(new FrmCrawler());
         }

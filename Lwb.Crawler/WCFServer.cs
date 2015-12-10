@@ -44,6 +44,30 @@ namespace Lwb.Crawler
             return sLwbResult;
         }
 
+        /// <summary>
+        /// 爬虫获取到html发送回服务中心
+        /// </summary>
+        /// <param name="pCrawlResult"></param>
+        public static void SendCrawlResult(CrawlResult pCrawlResult)
+        {
+            try
+            {
+                using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
+                {
+                    ICrawler proxy = channelFactory.CreateChannel();
+                    using (proxy as IDisposable)
+                    {
+                        proxy.ReceiveCrawlResult(pCrawlResult);
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                Console.WriteLine("SendCrawResult" + ee.Message);
+            }
+        }
+
+
         public static HainaResultInfo<List<CrawlTask>> HanaiProcess()
         {
             try
@@ -62,26 +86,7 @@ namespace Lwb.Crawler
             {
                 return null;
             }
-        }
-
-        public static void SendCrawlResult(CrawlResult pCrawlResult)
-        {
-            try
-            {
-                using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
-                {
-                    ICrawler proxy = channelFactory.CreateChannel();
-                    using (proxy as IDisposable)
-                    {
-                        proxy.ReceiveCrawlResult(pCrawlResult);
-                    }
-                }
-            }
-            catch (Exception E)
-            {
-
-            }
-        }
+        }        
     }
 
     public class HainaResultInfo<TEntity>

@@ -76,11 +76,6 @@ namespace Lwb.Crawler.Service.Crawl
                     }
                 }
             }
-            //CrawlTask crawlTask = openPlot.GetCrawlTask(1, null, 1);
-            //if (crawlTask != null)
-            //{
-            //    sList.Add(crawlTask);
-            //}
 
             return sList;
         }
