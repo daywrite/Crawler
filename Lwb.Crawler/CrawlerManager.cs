@@ -131,45 +131,6 @@ namespace Lwb.Crawler
                 sCrawlResult.List.Add(new CrawlResultDetail { ID = t.ID, Content = result.Html });
             });
             WCFServer.SendingCrawlResult(sCrawlResult);
-        }
-
-        public static void Adapter()
-        {
-            HainaResultInfo<List<CrawlTask>> sTaskList = WCFServer.HanaiProcess();
-            if (sTaskList != null && sTaskList.Content.Count != 0)
-            {
-                foreach (var index in sTaskList.Content)
-                {
-                    ExecuteTask(index);
-                }
-            }
-            else
-            {
-                Console.WriteLine("还没有任务哦");
-            }
-        }
-
-        public static void ExecuteTask(object obj)
-        {
-            CrawlTask sCrawlTask = (CrawlTask)obj;
-
-            CrawlResult sCrawlResult = new CrawlResult();
-
-            foreach (var index in sCrawlTask.List)
-            {
-                item.URL = index.Url;
-                item.Method = "get";
-
-                result = httpHelper.GetHtml(item);
-
-                sCrawlResult.PlotKey = sCrawlTask.PlotKey;
-                sCrawlResult.LineID = sCrawlTask.LineID;
-
-                sCrawlResult.List.Add(new CrawlResultDetail { ID = index.ID, Content = result.Html });
-                //Console.WriteLine(result.Html);
-            }
-
-            WCFServer.SendCrawlResult(sCrawlResult);
-        }
+        }       
     }
 }

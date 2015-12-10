@@ -56,6 +56,10 @@ namespace Lwb.Crawler.Service.Db
             return crawlTaskDetail;
         }
 
+        /// <summary>
+        /// 批量将返回的任务插入到数据库
+        /// </summary>
+        /// <param name="pCrawlResultDetailList"></param>
         public void InsertCrawlResult(List<CrawlResultDetail> pCrawlResultDetailList)
         {
             using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))

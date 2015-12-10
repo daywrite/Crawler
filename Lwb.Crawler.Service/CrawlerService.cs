@@ -73,20 +73,6 @@ namespace Lwb.Crawler.Service
                 return new LwbResult(LwbResultType.Error, ee.Message);
             }
 
-        }
-        public List<CrawlTask> QueryCrawlTask(Input input)
-        {
-            if (input.Type == 3)
-            {
-                return CrawlServer.GetCrawlTasks(null, 1, 1);
-            }
-
-            return null;
-        }
-
-        public void ReceiveCrawlResult(CrawlResult pCrawlResult)
-        {
-            CrawlServer.ReceiveCrawlResult(pCrawlResult);
-        }
+        }        
     }
 }

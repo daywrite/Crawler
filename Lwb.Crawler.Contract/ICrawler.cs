@@ -14,12 +14,6 @@ namespace Lwb.Crawler.Contract
     public interface ICrawler
     {
         [OperationContract]
-        LwbResult LwbEach(LwbInput pLwbInput);       
-
-        [OperationContract]
-        List<CrawlTask> QueryCrawlTask(Input input);
-
-        [OperationContract]
-        void ReceiveCrawlResult(CrawlResult pCrawlResult);
+        LwbResult LwbEach(LwbInput pLwbInput);            
     }
 }

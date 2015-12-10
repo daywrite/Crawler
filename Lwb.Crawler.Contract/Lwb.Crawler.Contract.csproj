@@ -50,13 +50,12 @@
     <Compile Include="Crawl\Model\HostStatus.cs" />
     <Compile Include="Crawl\Model\PlotLineState.cs" />
     <Compile Include="ICrawler.cs" />
-    <Compile Include="Model\CTask.cs" />
+    <Compile Include="Model\Entity\CTask.cs" />
     <Compile Include="Model\Entity\LwbInput.cs" />
     <Compile Include="Model\Entity\LwbResult.cs" />
     <Compile Include="Model\Entity\LwbResultType.cs" />
     <Compile Include="Model\Enum\CrawlEnum.cs" />
     <Compile Include="Model\Enum\PlotEnum.cs" />
-    <Compile Include="Model\Input.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
