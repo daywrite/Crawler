@@ -146,7 +146,7 @@ namespace Lwb.Crawler.Service.Crawl
 
         internal void RecieveCrawlResult(CrawlResult pResult)
         {
-            Console.WriteLine(pResult.List.FirstOrDefault().Content);
+            crawlDbAdapter.InsertCrawlResult(pResult.List);
         }
         public void InitWaterLine()
         {

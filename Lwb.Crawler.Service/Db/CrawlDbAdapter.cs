@@ -29,7 +29,7 @@ namespace Lwb.Crawler.Service.Db
 
             using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
             {
-                string sql = string.Format("select top {0} Id,Url from CTask where IsDeleted=0 order by CreatedTime desc",count);
+                string sql = string.Format("select top {0} Id,Url from CTask where IsDeleted=0 order by CreatedTime desc", count);
                 sqlConnection.Open();
                 ret = sqlConnection.Query<CTask>(sql, null).ToList();
                 sqlConnection.Close();
@@ -52,8 +52,25 @@ namespace Lwb.Crawler.Service.Db
             CrawlTaskDetail crawlTaskDetail = new CrawlTaskDetail();
             crawlTaskDetail.ID = cTask.Id;
             crawlTaskDetail.Url = cTask.Url;
-            
+
             return crawlTaskDetail;
+        }
+
+        public void InsertCrawlResult(List<CrawlResultDetail> pCrawlResultDetailList)
+        {
+            using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
+            {
+                string sql = string.Format("Insert into CTaskResult values(@url,@rcontent,@isdeleted,@createdtime)");
+                sqlConnection.Open();
+                pCrawlResultDetailList.ForEach(t => sqlConnection.Execute(sql, 
+                    new { url = "", 
+                        rcontent = t.Content, 
+                        isdeleted = false, 
+                        createdtime = DateTime.Now })
+                        );
+
+                sqlConnection.Close();
+            }
         }
     }
 }
