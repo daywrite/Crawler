@@ -91,6 +91,44 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
+        
+
+        #region 左侧菜单树操作
+
+        /// <summary>
+        /// 新建组-一般组是必要的环节，更好的区分生茶先
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuGroupFloderNew_Click(object sender, EventArgs e)
+        {
+            if (treeV.SelectedNode != null && treeV.SelectedNode.ImageIndex <= 1)
+            {
+                TreeNode sNode = new TreeNode("", 1, 1);
+                FrmNewFolder sFrmNewFolder = new FrmNewFolder(sNode);
+                if (sFrmNewFolder.ShowDialog() == DialogResult.OK)
+                {
+                    string sPath = treeV.SelectedNode.Tag.ToString() + "\\" + sNode.Text;
+                    if (Directory.Exists(sPath))
+                    {
+                        MessageBox.Show("已存在同名的组！");
+                    }
+                    else
+                    {
+                        sNode.Tag = CommonService.CreateDir(sPath);
+                        treeV.SelectedNode.Nodes.Add(sNode);
+                        mTreeNodeDic[sPath] = sNode;
+                        treeV.SelectedNode = sNode;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 在组上，右键，获取列表添加专案
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void treeV_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -113,8 +151,6 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
-
-        #region 左侧菜单树操作
 
         /// <summary>
         /// 新建专案
@@ -149,7 +185,42 @@ namespace Lwb.Crawler.Center.Server.Main
             }
         }
 
-        #endregion
+        /// <summary>
+        /// 专案节点选择完成后触发
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void treeV_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.ImageIndex == 0 || e.Node.ImageIndex == 1)
+            {
+                #region 文件夹节点
+                //panelPlot.Visible = false;
+                //LView2.Visible = true;
+                //LView2.Items.Clear();
+                //LView2.Groups.Clear();
+                LoadPlotItem(e.Node, null);
+                #endregion
+            }
+            else
+            {
+                #region 专案
+                //panelPlot.Visible = true;
+                //LView2.Visible = false;
+                listView1.Items.Clear();
+                OpenPlot sPlot = (OpenPlot)e.Node.Tag;
+                #region 加载专案的展示信息
+                if (sPlot.Lines != null && sPlot.Lines.Count > 0)
+                {
+                    for (int i = 0; i < sPlot.Lines.Count; i++)
+                    {
+                        LoadPlotWaterLineItem(sPlot.Lines[i]);
+                    }
+                }
+                #endregion
+                #endregion
+            }
+        }
 
         /// <summary>
         /// 添加网页生产线
@@ -174,9 +245,11 @@ namespace Lwb.Crawler.Center.Server.Main
                     //sPlot.Remove(sPlotLine);
                 }
             }
-
-
         }
+
+        #endregion
+
+        
 
         /// <summary>
         /// 
@@ -252,31 +325,7 @@ namespace Lwb.Crawler.Center.Server.Main
 
             listView1.Items.Add(sItem);
         }
-
-        private void MenuGroupFloderNew_Click(object sender, EventArgs e)
-        {
-            if (treeV.SelectedNode != null && treeV.SelectedNode.ImageIndex <= 1)
-            {
-                TreeNode sNode = new TreeNode("", 1, 1);
-                FrmNewFolder sFrmNewFolder = new FrmNewFolder(sNode);
-                if (sFrmNewFolder.ShowDialog() == DialogResult.OK)
-                {
-                    string sPath = treeV.SelectedNode.Tag.ToString() + "\\" + sNode.Text;
-                    if (Directory.Exists(sPath))
-                    {
-                        MessageBox.Show("已存在同名的组！");
-                    }
-                    else
-                    {
-                        sNode.Tag = CommonService.CreateDir(sPath);
-                        treeV.SelectedNode.Nodes.Add(sNode);
-                        mTreeNodeDic[sPath] = sNode;
-                        treeV.SelectedNode = sNode;
-                    }
-                }
-            }
-        }
-
+        
         private void MenuPlotLine启动_Click(object sender, EventArgs e)
         {
             if (MenuPlotLine.Tag != null)
@@ -289,37 +338,7 @@ namespace Lwb.Crawler.Center.Server.Main
             }
         }
 
-        private void treeV_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (e.Node.ImageIndex == 0 || e.Node.ImageIndex == 1)
-            {
-                #region 文件夹节点
-                //panelPlot.Visible = false;
-                //LView2.Visible = true;
-                //LView2.Items.Clear();
-                //LView2.Groups.Clear();
-                LoadPlotItem(e.Node, null);
-                #endregion
-            }
-            else
-            {
-                #region 专案
-                //panelPlot.Visible = true;
-                //LView2.Visible = false;
-                listView1.Items.Clear();
-                OpenPlot sPlot = (OpenPlot)e.Node.Tag;
-                #region 加载专案的展示信息
-                if (sPlot.Lines != null && sPlot.Lines.Count > 0)
-                {
-                    for (int i = 0; i < sPlot.Lines.Count; i++)
-                    {
-                        LoadPlotWaterLineItem(sPlot.Lines[i]);
-                    }
-                }
-                #endregion
-                #endregion
-            }
-        }
+        
         /// <summary>
         /// 加载专案列表
         /// </summary>

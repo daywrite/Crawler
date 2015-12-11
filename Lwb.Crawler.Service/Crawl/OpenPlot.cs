@@ -119,8 +119,8 @@ namespace Lwb.Crawler.Service.Crawl
             lock (mLocker)
             {
                 PlotWaterLine sPlotWaterLine = new PlotWaterLine();
-                sPlotWaterLine.Plot = this;
-                sPlotWaterLine.ID = GetLineID();
+                sPlotWaterLine.Plot = this;//将当前的专案加载到当前生产线当中
+                sPlotWaterLine.ID = GetLineID();//根据规则生成一个生产线ID
                 sPlotWaterLine.InitWaterLine();
                 sPlotWaterLine.IsFileLine = pIsFileLine;
                 sPlotWaterLine.Name = GetNewLineName(pBaseName);
