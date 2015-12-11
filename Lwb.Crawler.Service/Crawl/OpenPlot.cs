@@ -13,18 +13,27 @@ namespace Lwb.Crawler.Service.Crawl
     {
         private object mLocker = new object();
         private int mStartPos;
-        public Int128 Key;                                              //专案的标识 
-        public string Path;										        //专案的存储路径
-        public string Name;											    //专案的名字
-        public string HomePage;										    //专案站点主页
-        public DateTime CreateTime;						                //专案的创建时间
-        public string Creator;											//专案创建者
-        public string Info;											    //专案简介
-        public string Version = "4.0";									//专案版本
 
-        public List<PlotWaterLine> Lines = new List<PlotWaterLine>();                                   //专案生产线  
-        public string FileName;                                                                         //专案存储的文件
-        private Dictionary<int, PlotWaterLine> mLineDic = new Dictionary<int, PlotWaterLine>();         //生产线字典
+        public Int128 Key { get; set; }                                     //专案的标识,在创建专案的时候生成，伴随专案一生 
+        public DateTime CreateTime { get; set; } 					        //专案的创建时间,在创建专案的时候生成
+
+        public string Path { get; set; } 							        //专案的存储路径
+
+        public string Name { get; set; }								    //专案的名字
+        public string HomePage { get; set; }								//专案站点主页
+        public string Creator { get; set; }									//专案创建者
+        public string Info { get; set; }								    //专案简介
+        public string Version { get; set; }									//专案版本
+
+        public List<PlotWaterLine> Lines { get; set; }                      //专案生产线  
+        public string FileName { get; set; }                                //专案存储的文件
+        private Dictionary<int, PlotWaterLine> mLineDic { get; set; }       //生产线字典
+        public OpenPlot()
+        {
+            Version = "4.0";
+            Lines = new List<PlotWaterLine>();
+            mLineDic = new Dictionary<int, PlotWaterLine>();
+        }
         public CrawlTask GetCrawlTask(int pPRI, Dictionary<string, string> pHostDic, uint pIp)
         {
             int sStartPos = mStartPos;        //生产线机会均等
@@ -84,7 +93,9 @@ namespace Lwb.Crawler.Service.Crawl
             }
             sPlotWaterLine.RecieveCrawlResult(pResult);
         }
-        #region 生产线相关操作
+
+        #region 专案-生产线相关操作
+
         /// <summary>
         /// 创建新的专案
         /// </summary>

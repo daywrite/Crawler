@@ -113,8 +113,12 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
+
+        #region 左侧菜单树操作
+
         /// <summary>
         /// 新建专案
+        /// 专案就是可以创建生产线的地方
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -124,22 +128,28 @@ namespace Lwb.Crawler.Center.Server.Main
             {
                 OpenPlot sPlot = OpenPlot.CreatePlot();
                 sPlot.Path = treeV.SelectedNode.Tag.ToString();
+
                 FrmPlotInfo sFrmPlotInfo = new FrmPlotInfo(sPlot, true);
                 if (sFrmPlotInfo.ShowDialog() == DialogResult.OK)
                 {
                     string sFileName = treeV.SelectedNode.Tag.ToString() + "\\" + sPlot.Name + ".opp";
+                    //保存专案到本地文件
                     if (CrawlServer.SaveAs(sFileName, sPlot))
                     {
                         TreeNode sNode = new TreeNode(sPlot.Name, 2, 2);
                         sNode.Tag = sPlot;
+                        //在给专案树Tag赋值完，将专案添加到缓冲池
                         CrawlServer.AddPlot2Pool(sPlot);
                         treeV.SelectedNode.Nodes.Add(sNode);
+                        //专案树字典
                         mTreeNodeDic[sFileName] = sNode;
                         treeV.SelectedNode = sNode;
                     }
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// 添加网页生产线

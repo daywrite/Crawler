@@ -92,6 +92,9 @@ namespace Lwb.Crawler.Service.Crawl
             }
             sOpenPlot.RecieveCrawlResult(pCrawlResult);
         }
+
+        #region Server-保存专案
+
         /// <summary>
         /// 保存专案
         /// </summary>
@@ -125,7 +128,7 @@ namespace Lwb.Crawler.Service.Crawl
         }
 
         /// <summary>
-        /// 添加到缓冲池
+        /// 将专案添加到专案缓冲池子
         /// </summary>
         /// <param name="pPlot"></param>
         public static void AddPlot2Pool(OpenPlot pPlot)
@@ -149,6 +152,10 @@ namespace Lwb.Crawler.Service.Crawl
                 }
             }
         }
+
+        #endregion
+
+        
         /// <summary>
         /// 打开专案文件
         /// </summary>
