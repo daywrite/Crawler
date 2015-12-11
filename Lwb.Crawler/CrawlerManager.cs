@@ -126,6 +126,7 @@ namespace Lwb.Crawler
 
                 result = httpHelper.GetHtml(item);
 
+                sCrawlResult.TaskID = sCrawlTask.ID;
                 sCrawlResult.PlotKey = sCrawlTask.PlotKey;
                 sCrawlResult.LineID = sCrawlTask.LineID;
                 sCrawlResult.List.Add(new CrawlResultDetail { ID = t.ID, Content = result.Html });

@@ -10,9 +10,7 @@ namespace Lwb.Crawler.Contract.Crawl.Model
 {
     [DataContract]
     public class CrawlResult
-    {
-        [DataMember]
-        public uint IP { get; set; }
+    {      
         [DataMember]
         public Int128 TaskID { get; set; }//任务标识
         [DataMember]
