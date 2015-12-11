@@ -48,13 +48,13 @@
   <ItemGroup>
     <Compile Include="Constant.cs" />
     <Compile Include="CrawlerService.cs" />
-    <Compile Include="Crawl\CrawlServer.cs" />
+    <Compile Include="Crawl\server\CrawlServer.cs" />
     <Compile Include="Crawl\CycNode.cs" />
     <Compile Include="Crawl\DrillBaseRule.cs" />
     <Compile Include="Crawl\DrillHtmlRule.cs" />
     <Compile Include="Crawl\DrillRegularRule.cs" />
     <Compile Include="Crawl\MetaFeild.cs" />
-    <Compile Include="Crawl\OpenPlot.cs" />
+    <Compile Include="Crawl\Line\OpenPlot.cs" />
     <Compile Include="Crawl\OtherDefine.cs" />
     <Compile Include="Crawl\PageDrillRagularRule.cs" />
     <Compile Include="Crawl\Parameter.cs" />

@@ -25,9 +25,28 @@ namespace Lwb.Crawler.Center.Scheme
         {
             
             InitializeComponent();
+            //http页面请求类
             httpHelper = new HttpHelper();
-
+            //构造函数传递当前生产线
             mPlotLine = pPlotLine;
+            //网页请求语言设置
+            if (mPlotLine.Chaset != null && mPlotLine.Chaset.Length > 0)
+            {
+                CmbChaset.Text = mPlotLine.Chaset;
+            }
+            else
+            {
+                CmbChaset.SelectedIndex = 0;
+            }
+            //网页请求方法设置
+            if (mPlotLine.Method != null && mPlotLine.Method.Length > 0)
+            {
+                CmbMethod.Text = mPlotLine.Method;
+            }
+            else
+            {
+                CmbMethod.SelectedIndex = 0;
+            }
             
         }
        
@@ -48,8 +67,8 @@ namespace Lwb.Crawler.Center.Scheme
                 MyBrowser1.AllowNavigation = true;
                 MyBrowser1.DocumentText = TxtHtml.Text;
             }
-            //mPlotLine.Url = TxtAddress.Text;
-            //mPlotLine.Chaset = CmbChaset.Text;
+            mPlotLine.Url = TxtAddress.Text;
+            mPlotLine.Chaset = CmbChaset.Text;
         }
 
         /// <summary>
@@ -58,6 +77,16 @@ namespace Lwb.Crawler.Center.Scheme
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Tbar清洗规则_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 运行时配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TBarRuntime_Click(object sender, EventArgs e)
         {
 
         }
@@ -75,7 +104,7 @@ namespace Lwb.Crawler.Center.Scheme
             }
             else
             {
-                HtmlTree sTree = new HtmlTree(TxtHtml.Text, TxtAddress.Text, null);
+                HtmlTree sTree = new HtmlTree(TxtHtml.Text, TxtAddress.Text, mPlotLine.CleanRule);
                 if (sTree.LoadSuccess)
                 {
                     FrmRegularGuide mFrmRegularGuide = new FrmRegularGuide(TxtHtml.Text, sTree, mPlotLine);
@@ -89,18 +118,10 @@ namespace Lwb.Crawler.Center.Scheme
         }
 
         /// <summary>
-        /// 取消配置
+        /// 完成配置
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TbarCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
-        #endregion              
-
         private void TBarOk_Click(object sender, EventArgs e)
         {
             if (TxtAddress.Text.Trim().Length == 0)
@@ -131,5 +152,18 @@ namespace Lwb.Crawler.Center.Scheme
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        /// <summary>
+        /// 取消配置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbarCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        #endregion                             
     }
 }

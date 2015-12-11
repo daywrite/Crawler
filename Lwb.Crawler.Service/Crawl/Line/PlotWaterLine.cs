@@ -32,6 +32,7 @@ namespace Lwb.Crawler.Service.Crawl
         public ParameterCollection Paras;			            //请求参数集合
         public MetaFeild PageFeild;                             //页数字段提取，如果该参数存在，启动时，首次执行需要在服务器执行，获取页码参数，进而生成任务
         public List<DrillRegularRule> DrillRegularRules = new List<DrillRegularRule>();  //正则表达式提取集合
+        public string CleanRule;                                //清洗规则，清洗Html代码的规则，用不着了，因为不解析Html结构了，以后留做他用
         public int TaskBagSize = 20;//任务包的大小
         public int TaskBagPer = 100;//每次读取任务的个数
         public int DelayMin = 1000;                             //最小延时     

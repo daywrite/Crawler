@@ -62,7 +62,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtAddress.Location = new System.Drawing.Point(70, 5);
             this.TxtAddress.Name = "TxtAddress";
-            this.TxtAddress.Size = new System.Drawing.Size(249, 21);
+            this.TxtAddress.Size = new System.Drawing.Size(241, 21);
             this.TxtAddress.TabIndex = 28;
             // 
             // tabPage1
@@ -200,6 +200,7 @@
             this.TBarRuntime.Name = "TBarRuntime";
             this.TBarRuntime.Size = new System.Drawing.Size(88, 29);
             this.TBarRuntime.Text = "运行时设置";
+            this.TBarRuntime.Click += new System.EventHandler(this.TBarRuntime_Click);
             // 
             // toolStripLabel1
             // 
