@@ -612,6 +612,7 @@
             this.MenuPlotLine停止.Name = "MenuPlotLine停止";
             this.MenuPlotLine停止.Size = new System.Drawing.Size(148, 22);
             this.MenuPlotLine停止.Text = "停止";
+            this.MenuPlotLine停止.Click += new System.EventHandler(this.MenuPlotLine停止_Click);
             // 
             // MenuPlotLine重置
             // 

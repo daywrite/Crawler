@@ -30,6 +30,8 @@ namespace Lwb.Crawler.Center.Server.Main
             LoadTree();
         }
 
+        #region 加载左侧菜单树
+
         /// <summary>
         /// 加载左侧专案树
         /// </summary>
@@ -91,7 +93,8 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
-        
+
+        #endregion
 
         #region 左侧菜单树操作
 
@@ -325,7 +328,14 @@ namespace Lwb.Crawler.Center.Server.Main
 
             listView1.Items.Add(sItem);
         }
-        
+
+        #region 生产线右键操作
+
+        /// <summary>
+        /// 启动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuPlotLine启动_Click(object sender, EventArgs e)
         {
             if (MenuPlotLine.Tag != null)
@@ -338,7 +348,21 @@ namespace Lwb.Crawler.Center.Server.Main
             }
         }
 
-        
+        /// <summary>
+        /// 停止
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuPlotLine停止_Click(object sender, EventArgs e)
+        {
+            if (MenuPlotLine.Tag != null)
+            {
+                PlotWaterLine sPlotLine = (PlotWaterLine)((ListViewItem)MenuPlotLine.Tag).Tag;
+                sPlotLine.Stop();
+            }
+        }
+
+        #endregion
         /// <summary>
         /// 加载专案列表
         /// </summary>
@@ -367,5 +391,7 @@ namespace Lwb.Crawler.Center.Server.Main
                 }
             }
         }
+
+        
     }
 }

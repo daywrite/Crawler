@@ -232,11 +232,24 @@ namespace Lwb.Crawler.Service.Crawl
             }
         }
         #region 生产线启动-停止
+
+        /// <summary>
+        /// 开始
+        /// </summary>
         public void Start()
         {
             mExit = false;
             mState = (int)WaterLineState.Start;
         }
+
+        /// <summary>
+        /// 暂停
+        /// </summary>
+        public void Stop()
+        {
+            mState = 0;
+        }
+
         #endregion
         
     }
