@@ -522,6 +522,11 @@ namespace Lwb.Crawler.Service.Crawl
             return sUrl;
         }
 
+        /// <summary>
+        /// 记录区-判断规则是否完备
+        /// </summary>
+        /// <param name="pDrillRule"></param>
+        /// <returns></returns>
         public bool CanExe(DrillRegularRule pDrillRule)
         {
             if (pDrillRule.ConditionType == 0)

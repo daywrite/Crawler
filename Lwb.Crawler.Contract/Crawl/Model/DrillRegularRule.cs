@@ -10,14 +10,22 @@ namespace Lwb.Crawler.Service.Crawl
     [Serializable]
     public class DrillRegularRule : DrillBaseRule
     {
-        public byte ConditionType;           //条件类型0-无条件执行 ，1 =包含条件，包含指定的特征才执行，2 =排除条件 ，不包含指定的特征才执行
+        /// <summary>
+        /// 记录区-执行条件
+        /// 【0-无条件执行|1-包含条件，包含指定的特征才执行|2-排除条件 ，不包含指定的特征才执行】
+        /// </summary>
+        public byte ConditionType { get; set; }
         public string ConditionTag;            //条件字符串
 
         public string StartTag;                                 //起始特征
         public string EndTag;                                   //终止特征
 
         #region 链接特征提取
-        public int FeatureType;                                 //0-HREF,来自A节点；1-SRC,来自IMG
+        /// <summary>
+        /// 链接or图片
+        /// 【0-HREF,来自A节点|1-SRC,来自IMG】
+        /// </summary>
+        public int FeatureType { get; set; }
         public string Feature;                                  //通过特征串提取，元数据是固定的链接模式
         #endregion
 
@@ -72,7 +80,7 @@ namespace Lwb.Crawler.Service.Crawl
         public bool Repeatable;                 //循环提取
         public bool ClearHtml = true;           //清理Html代码
         public string[] ReplacePairs;			//替换字符串
-        public bool RemoveWhiteSpace ;          //移除空白
+        public bool RemoveWhiteSpace;          //移除空白
 
 
         internal RegularFeildRule Clone()

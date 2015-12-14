@@ -15,9 +15,11 @@ namespace Lwb.Crawler.Service.Crawl
         public int DbID;                                                 //输出数据库标识
         public string DbName;                                            //输出数据库名称   
         /// <summary>
-        /// 0-通过特征串提取链接, 1-自动提取新闻全文， 2-配置的高级提取
+        /// 记录区-提取规则
+        /// 【默认为配置的高级提取】
+        /// 【0-通过特征串提取链接|1-自动提取新闻全文|2-配置的高级提取】
         /// </summary>
-        public byte DrillType;                                           //默认为配置的高级提取
+        public byte DrillType { get; set; }
 
     }
 }

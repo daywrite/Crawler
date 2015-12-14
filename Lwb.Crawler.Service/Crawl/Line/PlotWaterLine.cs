@@ -147,10 +147,39 @@ namespace Lwb.Crawler.Service.Crawl
                 }
             }
 
-            for (int i = 0; i < DrillRegularRules.Count; i++)
-            { 
-            
-            }
+            List<DrillResult> Records = new List<DrillResult>();
+            //对当前html进行一个规则实例化-富血模型类
+            RegScriptTransactor sRegScriptTransactor = new RegScriptTransactor(sHtmlSb.ToString());
+            //（多个）记录区-规则提取
+            DrillRegularRules.ForEach(t =>
+            {
+                if (sRegScriptTransactor.CanExe(t))
+                {
+                    if (t.DrillType == 0)
+                    {
+                        string sName = t.FeatureType == 0 ? LineFeatureType.链接.ToString() : LineFeatureType.图片.ToString();
+                        DrillResult sDrillResult = new DrillResult();
+                        string[] sRdData = sRegScriptTransactor.GetUrls(t, "");
+                        //是否能找到记录区
+                        if (sRdData != null && sRdData.Length > 0)           
+                        {
+                            RegularMetaFeild sFeild = null;
+                            if (t.Feilds != null && t.Feilds.Count >= 5) { sFeild = t.Feilds[1]; }
+                            //生成结果集                            
+                            for (int j = 0; j < sRdData.Length; j++)
+                            {
+                                sDrillResult.Records.Add(new DrillCRecord(sName, sRdData[j], t.DbID, t.MetaModalID, Plot.Name, "", sFeild));
+                            }
+                        }
+                        Records.Add(sDrillResult);
+                    }
+                    else
+                    { 
+                    
+                    };
+                }
+            });
+
         }
         /// <summary>
         /// 获取一个任务包

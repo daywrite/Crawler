@@ -45,10 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crawl\Model\DrillHtmlRule.cs" />
+    <Compile Include="Crawl\Model\MetaFeild.cs" />
     <Compile Include="Crawl\Model\CrawlResult.cs" />
     <Compile Include="Crawl\Model\CrawlTask.cs" />
+    <Compile Include="Crawl\Model\DrillBaseRule.cs" />
+    <Compile Include="Crawl\Model\DrillRegularRule.cs" />
+    <Compile Include="Crawl\Model\DrillResult.cs" />
     <Compile Include="Crawl\Model\HostStatus.cs" />
     <Compile Include="Crawl\Model\PlotLineState.cs" />
+    <Compile Include="Crawl\Model\TezhenRule.cs" />
     <Compile Include="ICrawler.cs" />
     <Compile Include="Model\Entity\CTask.cs" />
     <Compile Include="Model\Entity\LwbInput.cs" />

@@ -18,7 +18,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// 0-键值对模式，FName=字段前缀，Spliter=分隔标签
         /// 1-单字段模式，FName=字段名
         /// </summary>
-        public int ResultMode;     
+        public int ResultMode;
         public string FName;
         public string Spliter;
         public string Script;     //暂时没用
@@ -28,7 +28,7 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         public void Exe(Dictionary<string, string> pDic, HtmlTree pTree, HtmlNodeList pHtmlNodeList)
         {
-            List<HtmlNode> sList =Path.Exe(  pTree,  pHtmlNodeList) ;
+            List<HtmlNode> sList = Path.Exe(pTree, pHtmlNodeList);
             if (sList != null)       //
             {
                 for (int i = 0; i < sList.Count; i++)
@@ -43,13 +43,13 @@ namespace Lwb.Crawler.Service.Crawl
                             HtmlNodeList sTextNodes = sSubList[j].GetTextNodes(false);
                             if (sTextNodes.Count > 0)
                             {
-                                for (int k = sTextNodes.Count-1; k >=0; k--)
+                                for (int k = sTextNodes.Count - 1; k >= 0; k--)
                                 {
                                     if (sTextNodes[k].TextDecoded.Trim().Length == 0) { sTextNodes.RemoveAt(k); }
                                 }
                                 if (sTextNodes.Count > 0)
                                 {
-                                    string[] sNameSpan = sTextNodes[0].TextDecoded.Trim().Replace(" ","").Split(new char[] { ':', '：' }, StringSplitOptions.RemoveEmptyEntries);
+                                    string[] sNameSpan = sTextNodes[0].TextDecoded.Trim().Replace(" ", "").Split(new char[] { ':', '：' }, StringSplitOptions.RemoveEmptyEntries);
                                     if (sNameSpan.Length > 0)
                                     {
                                         string sName = CommonService.ClearStr(sNameSpan[0]);
@@ -78,8 +78,8 @@ namespace Lwb.Crawler.Service.Crawl
                     }
                     else if (ResultMode == 1)
                     {
-                        string  sValue = sHtmlNode.TextDecoded.Trim();
-                        if (  sValue.Length > 0)
+                        string sValue = sHtmlNode.TextDecoded.Trim();
+                        if (sValue.Length > 0)
                         {
                             pDic[FName] = sValue;
                         }
@@ -116,7 +116,7 @@ namespace Lwb.Crawler.Service.Crawl
         public TagKey Clone()
         {
             TagKey sTagKey = new TagKey();
-            sTagKey.TagName=TagName;
+            sTagKey.TagName = TagName;
             sTagKey.TzKey = TzKey;
             return sTagKey;
         }

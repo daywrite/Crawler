@@ -17,4 +17,10 @@ namespace Lwb.Crawler.Contract.Model
         [Description("停止")]
         Stop = 0
     }
+
+    public enum LineFeatureType
+    {
+        链接,
+        图片
+    }
 }

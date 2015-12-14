@@ -50,10 +50,6 @@
     <Compile Include="CrawlerService.cs" />
     <Compile Include="Crawl\server\CrawlServer.cs" />
     <Compile Include="Crawl\CycNode.cs" />
-    <Compile Include="Crawl\DrillBaseRule.cs" />
-    <Compile Include="Crawl\DrillHtmlRule.cs" />
-    <Compile Include="Crawl\DrillRegularRule.cs" />
-    <Compile Include="Crawl\MetaFeild.cs" />
     <Compile Include="Crawl\Line\OpenPlot.cs" />
     <Compile Include="Crawl\OtherDefine.cs" />
     <Compile Include="Crawl\PageDrillRagularRule.cs" />
@@ -61,8 +57,7 @@
     <Compile Include="Crawl\ParaRefer.cs" />
     <Compile Include="Crawl\ParaSourceRunTime.cs" />
     <Compile Include="Crawl\Line\PlotWaterLine.cs" />
-    <Compile Include="Crawl\RegScriptTransactor.cs" />
-    <Compile Include="Crawl\TezhenRule.cs" />
+    <Compile Include="Crawl\RegularRule\RegScriptTransactor.cs" />
     <Compile Include="Db\CrawlDbAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
