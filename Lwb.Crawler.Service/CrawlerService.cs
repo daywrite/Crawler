@@ -63,7 +63,7 @@ namespace Lwb.Crawler.Service
                     if (sCrawlResult == null)
                         return new LwbResult(LwbResultType.Error, "获取爬虫回送任务失败");
 
-                    sCrawlResult.IP = sIntIp;
+                    //sCrawlResult.IP = sIntIp;
 
                     CrawlServer.ReceiveCrawlResult(sCrawlResult);
 

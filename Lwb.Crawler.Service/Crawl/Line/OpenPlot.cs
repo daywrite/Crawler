@@ -203,6 +203,22 @@ namespace Lwb.Crawler.Service.Crawl
                 }
             }
         }
+
+        /// <summary>
+        /// 调度
+        /// </summary>
+        internal void Adapter(DateTime pDt)
+        {
+            List<PlotWaterLine> sTmpList;
+            lock (mLocker)
+            {
+                sTmpList = new List<PlotWaterLine>(Lines);
+            }
+            for (int i = 0; i < sTmpList.Count; i++)
+            {
+                sTmpList[i].Attemper(pDt);
+            }
+        }
         #endregion
     }
 }

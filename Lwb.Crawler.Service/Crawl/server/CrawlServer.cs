@@ -21,6 +21,8 @@ namespace Lwb.Crawler.Service.Crawl
         public static OpenPlot openPlot = new OpenPlot();
         public static List<OpenPlot> PlotList = new List<OpenPlot>();
         private static Dictionary<Int128, OpenPlot> mPlotPool = new Dictionary<Int128, OpenPlot>();
+        private static System.Timers.Timer mAdapterTimer;//生产线调度
+        private static DateTime mLastRetrieveDt = DateTime.Now.Date;
         public static bool InitServer(string root)
         {
             Root = root;
@@ -28,8 +30,33 @@ namespace Lwb.Crawler.Service.Crawl
             CaseRoot = Root + "\\Cases";
             DirFileHelper.CreateDirectory(CaseRoot);
 
+            mAdapterTimer = new System.Timers.Timer(5000);
+            mAdapterTimer.AutoReset = true;
+            mAdapterTimer.Elapsed += new System.Timers.ElapsedEventHandler(mAdapterTimer_Elapsed);
+            mAdapterTimer.Start();
+
             return false;
         }
+
+        static void mAdapterTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            DateTime sDt = DateTime.Now;
+            if (sDt.Date > mLastRetrieveDt)
+            {
+                mLastRetrieveDt = sDt.Date;
+                //CrawlDbServer.Clear();
+            }
+            for (int i = PlotList.Count - 1; i >= 0; i--)
+            {
+                try { PlotList[i].Adapter(sDt); }
+                catch { }
+            }
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(CrawlDbServer.Flush));
+            //HandOutServer.Attemper();
+            ////哈尔滨2015.05.11添加
+            //HandOutChuzuServer.Attemper();
+        }
+
         internal static List<CrawlTask> GetCrawlTasks(Dictionary<string, string> pHostDic, uint pIp, int pMax)
         {
             List<CrawlTask> sList = new List<CrawlTask>();

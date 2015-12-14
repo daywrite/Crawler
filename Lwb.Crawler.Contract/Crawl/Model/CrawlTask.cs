@@ -36,9 +36,27 @@ namespace Lwb.Crawler.Contract.Crawl.Model
     [DataContract]
     public class CrawlTaskDetail
     {
+        private Int128 mKey { get; set; }
         [DataMember]
         public int ID { get; set; }                 //任务标识  
         [DataMember]
         public string Url { get; set; }         //请求url
+
+        [DataMember]
+        public Int128 Key
+        {
+            get
+            {
+                if (mKey.IsZero)
+                {
+                    mKey = SecurityProvider.GetInt128Md5(Url);
+                }
+                return mKey;
+            }
+            set
+            {
+                mKey = value;
+            }
+        }
     }
 }

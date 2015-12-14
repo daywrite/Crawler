@@ -12,6 +12,7 @@ using Haina.Crawl.OpenCase.Meta;
 using Haina.Base;
 using Lwb.Crawler.Contract.Model;
 using System.Xml.Serialization;
+using System.Threading;
 
 namespace Lwb.Crawler.Service.Crawl
 {
@@ -53,7 +54,7 @@ namespace Lwb.Crawler.Service.Crawl
 
         private Queue<CrawlTaskDetail> mTaskDetailWaitHandOutQueue = new Queue<CrawlTaskDetail>();             //待分发任务队列
         private volatile List<CrawlTaskDetail> mLocalTaskWaitDrillList = new List<CrawlTaskDetail>();          //使用本地缓存提取的任务集合
-        //private volatile List<CrawlOriData> mCrawlDataWaitDrillList = new List<CrawlOriData>();                //待提取的原始数据
+        private volatile List<CrawlResultDetail> mCrawlDataWaitDrillList = new List<CrawlResultDetail>();                //待提取的原始数据
         //private volatile List<DrillCRecord> mRecordWaitSubmitList = new List<DrillCRecord>();                  //待提交的提取结果
 
         internal volatile int mRecievedTotal;                  //累计接收到的处理结果
@@ -89,10 +90,68 @@ namespace Lwb.Crawler.Service.Crawl
         public DateTime CanStartDate = DateTime.Now;            //可以开始调度的时刻
         public int RunSpan = 120;                               //循环周期
         #region 获取监视信息
-       
+
         #endregion
         private ConcurrentQueue<CrawlTaskDetail> taskDetailWaitHandOutQueue = new ConcurrentQueue<CrawlTaskDetail>();//待分发的任务队列
-        
+
+        /// <summary>
+        /// 生产线调度
+        /// </summary>
+        internal void Attemper(DateTime pDt)
+        {
+            lock (mLocker)
+            {
+                #region 中间结果调度处理
+                if (mCrawlDataWaitDrillList.Count > 0)      //待提取处理的信息
+                {
+                    //List<CrawlOriData> sCrawlDataList = mCrawlDataWaitDrillList;         //替换接水盆
+                    //mCrawlDataWaitDrillList = new List<CrawlOriData>();
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(DrillCrawlData), mCrawlDataWaitDrillList);
+                }
+                #endregion
+            }
+        }
+
+        private void DrillCrawlData(object obj)
+        {
+            List<CrawlResultDetail> sCrawlResultDetailList = obj as List<CrawlResultDetail>;
+            if (sCrawlResultDetailList != null)
+                sCrawlResultDetailList.ForEach(t => DrillProcess(t));
+        }
+        private void DrillProcess(CrawlResultDetail pCrawlResultDetail)
+        {
+            DrillRegularResult(pCrawlResultDetail);
+        }
+
+        private void DrillRegularResult(CrawlResultDetail pCrawlResultDetail)
+        {
+            StringBuilder sHtmlSb = new StringBuilder(pCrawlResultDetail.Content.ToString());
+            //执行清洗操作
+            if (CleanRule != null && CleanRule.Length > 0)
+            {
+                string[] sCleanRules = CleanRule.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                if (sCleanRules.Length > 0)
+                {
+                    for (int i = 0; i < sCleanRules.Length; i++)
+                    {
+                        string[] sCleanRule = sCleanRules[i].Split('|');
+                        if (sCleanRule.Length == 1)
+                        {
+                            sHtmlSb.Replace(sCleanRule[0], "");
+                        }
+                        else if (sCleanRule.Length == 2)
+                        {
+                            sHtmlSb.Replace(sCleanRule[0], sCleanRule[1]);
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < DrillRegularRules.Count; i++)
+            { 
+            
+            }
+        }
         /// <summary>
         /// 获取一个任务包
         /// </summary>
@@ -122,7 +181,7 @@ namespace Lwb.Crawler.Service.Crawl
 
             return null;
         }
-        
+
         /// <summary>
         /// 将任务实体类列表封装成一个任务包
         /// </summary>
@@ -147,7 +206,40 @@ namespace Lwb.Crawler.Service.Crawl
 
         internal void RecieveCrawlResult(CrawlResult pResult)
         {
+            CrawlTask sCrawlTask;
+            lock (mLocker)
+            {
+                if (mRunningTaskDic.TryGetValue(pResult.TaskID, out sCrawlTask) == false || sCrawlTask.List.Count != pResult.List.Count)  //未注册的任务
+                {
+                    return;
+                }
+                else
+                {
+                    mRunningTaskDic.Remove(pResult.TaskID);       //该任务算是完成了
+                    for (int i = 0; i < sCrawlTask.List.Count; i++)
+                    {
+                        mRunningTaskDetailDic.Remove(sCrawlTask.List[i].Key);
+                    }
+                }
+            }
+            //最后时间
+            mLastProduceDt = DateTime.Now;
+
+            //存储原始数据
             crawlDbAdapter.InsertCrawlResult(pResult.List);
+
+            //更新数据库标示，已经完成任务
+            AddCrawlDatasWaitDrill(pResult.List);
+        }
+        internal void AddCrawlDatasWaitDrill(List<CrawlResultDetail> pDatList)
+        {
+            if (pDatList.Count > 0)
+            {
+                lock (mLocker)
+                {
+                    mCrawlDataWaitDrillList.AddRange(pDatList);
+                }
+            }
         }
         public void InitWaterLine()
         {
@@ -251,6 +343,6 @@ namespace Lwb.Crawler.Service.Crawl
         }
 
         #endregion
-        
+
     }
 }

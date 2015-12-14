@@ -45,6 +45,7 @@
     <Compile Include="Data\Result\OperationResultType.cs" />
     <Compile Include="Data\Result\OSharpResult.cs" />
     <Compile Include="File\DirFileHelper.cs" />
+    <Compile Include="Http\HtmlHelper.cs" />
     <Compile Include="Http\HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
