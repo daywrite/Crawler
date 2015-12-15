@@ -11,20 +11,32 @@ using Lwb.Crawler.Contract.Crawl.Model;
 using Lwb.Crawler.Contract.Model;
 namespace Lwb.Crawler
 {
+    /// <summary>
+    /// 爬虫管理类
+    /// </summary>
     public class CrawlerManager
     {
+        /// <summary>
+        /// 多线程锁
+        /// </summary>
         private static object mLocker = new object();
 
+        //跟爬虫爬取网页html代码有关
         private static HttpHelper httpHelper;
         private static HttpItem item;
         private static HttpResult result;
 
-        private static Dictionary<string, HostStatus> mHostDic = new Dictionary<string, HostStatus>();    //主机累积错误
-        private static Dictionary<Int128, CrawlTask> mTaskPool = new Dictionary<Int128, CrawlTask>();     //当前爬虫在线任务
+        //主机累积错误
+        private static Dictionary<string, HostStatus> mHostDic = new Dictionary<string, HostStatus>();
+        //当前爬虫在线任务
+        private static Dictionary<Int128, CrawlTask> mTaskPool = new Dictionary<Int128, CrawlTask>();
 
         private static DateTime mLastAddTaskDt { get; set; }
-        private static bool mCanAttemper { get; set; }//爬虫是否能调度
-        public static int MaxThreads { get; set; }//爬虫能接受的最大任务数量
+        //爬虫是否能调度
+        private static bool mCanAttemper { get; set; }
+        //爬虫能接受的最大任务数量
+        public static int MaxThreads { get; set; }
+
         static CrawlerManager()
         {
             httpHelper = new HttpHelper();
@@ -40,74 +52,73 @@ namespace Lwb.Crawler
         /// <returns></returns>
         public static LwbResult DbAdapter()
         {
-            if (mCanAttemper)
+            if (!mCanAttemper)
+                return new LwbResult(LwbResultType.Success, "爬虫正在干活中，请勿累死爬虫");
+
+            try
             {
-                try
+                //锁定爬虫，让其暂时不接受任务
+                mCanAttemper = false;
+                int sMax;
+                lock (mLocker)
                 {
-                    mCanAttemper = false;
-                    int sMax;
+                    sMax = (MaxThreads - mTaskPool.Count) > 5 ? 5 : (MaxThreads - mTaskPool.Count);
+                }
+                //爬虫已经在干任务达到30个
+                 if (sMax == 0)
+                    return new LwbResult(LwbResultType.Success, "爬虫已经正在干将近" + MaxThreads + "个任务，让他歇会吧");
+
+                List<string> sList = new List<string>();
+                lock (mLocker)
+                {
+                    foreach (KeyValuePair<string, HostStatus> sKp in mHostDic)
+                    {
+                        if (sKp.Value.Busy)
+                        {
+                            sList.Add(sKp.Key);
+                        }
+                    }
+                }
+                //去远程服务器取任务
+                LwbResult sLwbResult = WCFServer.GetCrawlTask(new Input获取生产线任务列表 { RuningTaskHost = sList, TaskMax = sMax });
+                //先看看结果
+                if (sLwbResult.ResultType != LwbResultType.Success)
+                    return sLwbResult;
+                //转换结果
+                List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
+                if (sCrawlTaskList == null)
+                    return new LwbResult(LwbResultType.Error, "爬虫抓取返回数据格式错误");
+                if (sCrawlTaskList.Count == 0)
+                    return new LwbResult(LwbResultType.Success, "爬虫获取到的任务数量为0");
+
+                sCrawlTaskList.ForEach(t =>
+                {
                     lock (mLocker)
                     {
-                        sMax = (MaxThreads - mTaskPool.Count) > 5 ? 5 : (MaxThreads - mTaskPool.Count);
-                    }
-                    if (sMax > 0)
-                    {
-                        List<string> sList = new List<string>();
-                        lock (mLocker)
-                        {
-                            foreach (KeyValuePair<string, HostStatus> sKp in mHostDic)
-                            {
-                                if (sKp.Value.Busy)
-                                {
-                                    sList.Add(sKp.Key);
-                                }
-                            }
-                        }
-                        LwbResult sLwbResult = WCFServer.GetCrawlTask(new Input获取生产线任务列表 { RuningTaskHost = sList, TaskMax = sMax });
+                        //任务包缓冲池
+                        mTaskPool[t.ID] = t;
 
-                        List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
-                        if (sCrawlTaskList == null)
-                            return new LwbResult(LwbResultType.Error, "爬虫抓取返回数据格式错误");
-
-                        if (sCrawlTaskList.Count != 0)
-                        {
-                            sCrawlTaskList.ForEach(t =>
-                            {
-                                lock (mLocker)
-                                {
-                                    mTaskPool[t.ID] = t;
-                                    HostStatus sHostStatus;
-                                    if (mHostDic.TryGetValue(t.Host, out sHostStatus) == false)
-                                    {
-                                        sHostStatus = new HostStatus(t.Host);
-                                        mHostDic[t.Host] = sHostStatus;
-                                    }
-                                    sHostStatus.TaskCount++;
-                                }
-                                ThreadPool.QueueUserWorkItem(new WaitCallback(ExeTask), t);
-                            });
-                            mLastAddTaskDt = DateTime.Now;
-                        }
-
-                        return new LwbResult(LwbResultType.Success, "爬虫正在干活中，很开心");
+                        //HostStatus sHostStatus;
+                        //if (mHostDic.TryGetValue(t.Host, out sHostStatus) == false)
+                        //{
+                        //    sHostStatus = new HostStatus(t.Host);
+                        //    mHostDic[t.Host] = sHostStatus;
+                        //}
+                        //sHostStatus.TaskCount++;
                     }
-                    else
-                    {
-                        return new LwbResult(LwbResultType.Success, "爬虫已经正在干将近" + MaxThreads + "个任务，让他歇会吧");
-                    }
-                }
-                catch (Exception ee)
-                {
-                    return new LwbResult(LwbResultType.Error, "爬虫在干活过程中生病了"+ee.Message);
-                }
-                finally
-                {
-                    mCanAttemper = true;
-                }
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(ExeTask), t);
+                });
+                mLastAddTaskDt = DateTime.Now;
+
+                return new LwbResult(LwbResultType.Success, "爬虫正在干活中，很开心");
             }
-            else
+            catch (Exception ee)
             {
-                return new LwbResult(LwbResultType.Success, "爬虫正在干活中，请勿累死爬虫");
+                return new LwbResult(LwbResultType.Error, "爬虫在干活过程中生病了" + ee.Message);
+            }
+            finally
+            {
+                mCanAttemper = true;
             }
         }
 
@@ -120,7 +131,8 @@ namespace Lwb.Crawler
         {
             CrawlTask sCrawlTask = obj as CrawlTask;
             CrawlResult sCrawlResult = new CrawlResult();
-            sCrawlTask.List.ForEach(t => {
+            sCrawlTask.List.ForEach(t =>
+            {
                 item.URL = t.Url;
                 item.Method = "get";
 
@@ -132,6 +144,6 @@ namespace Lwb.Crawler
                 sCrawlResult.List.Add(new CrawlResultDetail { ID = t.ID, Content = result.Html });
             });
             WCFServer.SendingCrawlResult(sCrawlResult);
-        }       
+        }
     }
 }

@@ -54,5 +54,14 @@ namespace Lwb.Crawler.Contract.Model
         /// </summary>
         [DataMember]
         public object Data { get; set; }
+
+        /// <summary>
+        /// 结果类封装
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("结果类型：{0}\r\n返回消息：{1}", ResultType.ToString(), Message);
+        }
     }
 }
