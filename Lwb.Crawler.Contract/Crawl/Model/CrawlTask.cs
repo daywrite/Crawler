@@ -36,7 +36,12 @@ namespace Lwb.Crawler.Contract.Crawl.Model
     [DataContract]
     public class CrawlTaskDetail
     {
-        private Int128 mKey { get; set; }
+        [DataMember]
+        public Int128 mKey { get; set; }
+        [DataMember]
+        public string Host { get; set; }
+        [DataMember]
+        public string Title { get; set; }
         [DataMember]
         public int ID { get; set; }                 //任务标识  
         [DataMember]

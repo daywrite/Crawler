@@ -13,6 +13,7 @@ using Haina.Base;
 using Lwb.Crawler.Contract.Model;
 using System.Xml.Serialization;
 using System.Threading;
+using Lwb.Crawler.Contract.Crawl;
 
 namespace Lwb.Crawler.Service.Crawl
 {
@@ -54,7 +55,7 @@ namespace Lwb.Crawler.Service.Crawl
 
         private Queue<CrawlTaskDetail> mTaskDetailWaitHandOutQueue = new Queue<CrawlTaskDetail>();             //待分发任务队列
         private volatile List<CrawlTaskDetail> mLocalTaskWaitDrillList = new List<CrawlTaskDetail>();          //使用本地缓存提取的任务集合
-        private volatile List<CrawlResultDetail> mCrawlDataWaitDrillList = new List<CrawlResultDetail>();                //待提取的原始数据
+        private volatile List<CrawlOriData> mCrawlDataWaitDrillList = new List<CrawlOriData>();                //待提取的原始数据
         //private volatile List<DrillCRecord> mRecordWaitSubmitList = new List<DrillCRecord>();                  //待提交的提取结果
 
         internal volatile int mRecievedTotal;                  //累计接收到的处理结果
@@ -114,18 +115,20 @@ namespace Lwb.Crawler.Service.Crawl
 
         private void DrillCrawlData(object obj)
         {
-            List<CrawlResultDetail> sCrawlResultDetailList = obj as List<CrawlResultDetail>;
-            if (sCrawlResultDetailList != null)
-                sCrawlResultDetailList.ForEach(t => DrillProcess(t));
+            List<CrawlOriData> sDrillCrawlData = obj as List<CrawlOriData>;
+            if (sDrillCrawlData != null)
+                sDrillCrawlData.ForEach(t => DrillProcess(t));
         }
-        private void DrillProcess(CrawlResultDetail pCrawlResultDetail)
+        private void DrillProcess(CrawlOriData pCrawlOriData)
         {
-            DrillRegularResult(pCrawlResultDetail);
+            List<DrillResult> sResultList = null;
+
+            sResultList = DrillRegularResult(pCrawlOriData);
         }
 
-        private void DrillRegularResult(CrawlResultDetail pCrawlResultDetail)
+        private List<DrillResult> DrillRegularResult(CrawlOriData pCrawlOriData)
         {
-            StringBuilder sHtmlSb = new StringBuilder(pCrawlResultDetail.Content.ToString());
+            StringBuilder sHtmlSb = new StringBuilder(pCrawlOriData.Data.ToString());
             //执行清洗操作
             if (CleanRule != null && CleanRule.Length > 0)
             {
@@ -159,27 +162,84 @@ namespace Lwb.Crawler.Service.Crawl
                     {
                         string sName = t.FeatureType == 0 ? LineFeatureType.链接.ToString() : LineFeatureType.图片.ToString();
                         DrillResult sDrillResult = new DrillResult();
-                        string[] sRdData = sRegScriptTransactor.GetUrls(t, "");
+                        string[] sRdData = sRegScriptTransactor.GetUrls(t, pCrawlOriData.Url);
                         //是否能找到记录区
-                        if (sRdData != null && sRdData.Length > 0)           
+                        if (sRdData != null && sRdData.Length > 0)
                         {
                             RegularMetaFeild sFeild = null;
                             if (t.Feilds != null && t.Feilds.Count >= 5) { sFeild = t.Feilds[1]; }
                             //生成结果集                            
                             for (int j = 0; j < sRdData.Length; j++)
                             {
-                                sDrillResult.Records.Add(new DrillCRecord(sName, sRdData[j], t.DbID, t.MetaModalID, Plot.Name, "", sFeild));
+                                sDrillResult.Records.Add(new DrillCRecord(Plot.Name, sName, sRdData[j]));
                             }
                         }
                         Records.Add(sDrillResult);
                     }
                     else
-                    { 
-                    
+                    {
+                        //高级自定义提取
+                        //规则结果对象
+                        DrillResult sDrillResult = new DrillResult();
+                        //获取记录区片段
+                        string[] sRegionHtmls = sRegScriptTransactor.GetRecordHtmls(t);
+                        if (sRegionHtmls != null)
+                        {
+                            for (int j = 0; j < sRegionHtmls.Length; j++)
+                            {
+                                RegScriptTransactor sRegionTransactor = new RegScriptTransactor(sRegionHtmls[j]);
+                                DrillCRecord sDrillCRecord = new DrillCRecord();
+                                //sDrillCRecord.DbModelID = sDrillRule.MetaModalID;
+                                SRecord sCRecord = new SRecord();
+                                sDrillCRecord.Record = sCRecord;
+                                //sCRecord.DbID = sDrillRule.DbID;
+                                //sCRecord.Meta = new string[sDrillRule.Feilds.Count];
+                                for (int k = 0; k < t.Feilds.Count; k++)
+                                {
+                                    RegularMetaFeild sRegularMetaFeild = t.Feilds[k];
+                                    if (sRegularMetaFeild.Name == "来源链接")
+                                    {
+                                        sCRecord.Url = pCrawlOriData.Url;
+                                    }
+                                    else if (sRegularMetaFeild.Rule != null)
+                                    {
+                                        string sValue = sRegionTransactor.Exe(sRegularMetaFeild.Rule);
+                                        sCRecord.Url = sValue;
+                                        if (sRegularMetaFeild.BindType > 0 && sValue != null && sValue.Trim().Length > 0)
+                                        {
+                                            string[] sUrls = sValue.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                                            if (sUrls != null && sUrls.Length > 0)
+                                            {
+                                                Dictionary<string, string> sUrlDic = new Dictionary<string, string>();
+                                                for (int ii = 0; ii < sUrls.Length; ii++)
+                                                {
+                                                    string sUrl = sUrls[ii].Trim();
+                                                    if (sUrlDic.ContainsKey(sUrl.ToLower()) == false)
+                                                    {
+                                                        sUrlDic[sUrl.ToLower()] = sUrl;
+                                                        string[] sUrlSpans = sUrl.Split('\t');
+                                                        if (sUrlSpans.Length > 1 && (sUrlSpans[1].StartsWith("http://") || sUrlSpans[1].StartsWith("https://")))
+                                                        {
+                                                            //sDrillCRecord.AddDownload(sUrlSpans[1], pData.Url, sRegularMetaFeild.BindType);
+                                                        }
+                                                        else if (sUrlSpans[0].StartsWith("http://") || sUrlSpans[0].StartsWith("https://"))
+                                                        {
+                                                            //sDrillCRecord.AddDownload(sUrlSpans[0], pData.Url, sRegularMetaFeild.BindType);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                sDrillResult.Records.Add(sDrillCRecord);
+                            }
+                        }
+                        Records.Add(sDrillResult);
                     };
                 }
             });
-
+            return Records;
         }
         /// <summary>
         /// 获取一个任务包
@@ -202,8 +262,16 @@ namespace Lwb.Crawler.Service.Crawl
                 }
                 if (taskDetailList.Count > 0)
                 {
+                    //创建一个任务包
                     CrawlTask crawlTask = CreateCrawlTask(taskDetailList);
-
+                    lock (mLocker)
+                    {
+                        mRunningTaskDic[crawlTask.ID] = crawlTask;
+                        for (int i = 0; i < taskDetailList.Count; i++)
+                        {
+                            mRunningTaskDetailDic[taskDetailList[i].Key] = taskDetailList[i];
+                        }
+                    }
                     return crawlTask;
                 }
             }
@@ -244,7 +312,8 @@ namespace Lwb.Crawler.Service.Crawl
                 }
                 else
                 {
-                    mRunningTaskDic.Remove(pResult.TaskID);       //该任务算是完成了
+                    //该任务算是完成了
+                    mRunningTaskDic.Remove(pResult.TaskID);
                     for (int i = 0; i < sCrawlTask.List.Count; i++)
                     {
                         mRunningTaskDetailDic.Remove(sCrawlTask.List[i].Key);
@@ -253,14 +322,26 @@ namespace Lwb.Crawler.Service.Crawl
             }
             //最后时间
             mLastProduceDt = DateTime.Now;
+            //将任务和结果合并成一个对象
+            List<CrawlOriData> sCrawlOriDataList = new List<CrawlOriData>();
+            for (int i = 0; i < sCrawlTask.List.Count; i++)
+            {
+                CrawlResultDetail sCrawlResultDetail = pResult.List[i];
+                CrawlTaskDetail sCrawlTaskDetail = sCrawlTask.List[i];
 
-            //存储原始数据
-            crawlDbAdapter.InsertCrawlResult(pResult.List);
+                CrawlOriData sCrawlOriData = new CrawlOriData(sCrawlTaskDetail, sCrawlResultDetail, (byte)("utf-8".Equals(Chaset, StringComparison.OrdinalIgnoreCase) ? 0 : 1));
 
+                //存储原始数据
+                crawlDbAdapter.InsertCrawlResult(pResult.List);
+                //
+                sCrawlOriDataList.Add(sCrawlOriData);
+
+            }
             //更新数据库标示，已经完成任务
-            AddCrawlDatasWaitDrill(pResult.List);
+            AddCrawlDatasWaitDrill(sCrawlOriDataList);
+
         }
-        internal void AddCrawlDatasWaitDrill(List<CrawlResultDetail> pDatList)
+        internal void AddCrawlDatasWaitDrill(List<CrawlOriData> pDatList)
         {
             if (pDatList.Count > 0)
             {

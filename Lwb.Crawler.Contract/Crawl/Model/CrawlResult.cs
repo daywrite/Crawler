@@ -45,5 +45,7 @@ namespace Lwb.Crawler.Contract.Crawl.Model
         public string Content { get; set; }
         [DataMember]
         public string Info { get; set; }
+        [DataMember]
+        public string Ext { get; set; }
     }
 }
