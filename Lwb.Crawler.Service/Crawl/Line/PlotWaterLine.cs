@@ -245,8 +245,13 @@ namespace Lwb.Crawler.Service.Crawl
         /// 获取一个任务包
         /// </summary>
         /// <returns></returns>
-        internal CrawlTask GetCrawlTask()
+        internal CrawlTask GetCrawlTask(Dictionary<string, string> pHostDic, uint pIp)
         {
+            if (mState == (int)WaterLineState.Stop || pHostDic.ContainsKey(Host))
+            {
+                return null;
+            }
+
             List<CrawlTaskDetail> taskDetailList = new List<CrawlTaskDetail>();
 
             if (taskDetailWaitHandOutQueue.Count < TaskBagSize)
@@ -286,10 +291,6 @@ namespace Lwb.Crawler.Service.Crawl
         /// <returns></returns>
         private CrawlTask CreateCrawlTask(List<CrawlTaskDetail> pTaskDetailList)
         {
-            if (mState == (int)WaterLineState.Stop)
-            {
-                return null;
-            }
             //实例化任务包
             CrawlTask sCrawlTask = new CrawlTask();
 

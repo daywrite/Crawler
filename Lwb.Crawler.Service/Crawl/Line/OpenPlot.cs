@@ -44,7 +44,7 @@ namespace Lwb.Crawler.Service.Crawl
                     PlotWaterLine sPlotWaterLine = Lines[i];
                     if (sPlotWaterLine.PRI == pPRI)
                     {
-                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask();
+                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask(pHostDic, pIp);
                         if (sCrawlTask != null)
                         {
                             if (i + 1 < Lines.Count)
@@ -68,7 +68,7 @@ namespace Lwb.Crawler.Service.Crawl
                     PlotWaterLine sPlotWaterLine = Lines[i];
                     if (sPlotWaterLine.PRI == pPRI)
                     {
-                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask();
+                        CrawlTask sCrawlTask = sPlotWaterLine.GetCrawlTask(pHostDic, pIp);
                         if (sCrawlTask != null)
                         {
                             mStartPos = i + 1;

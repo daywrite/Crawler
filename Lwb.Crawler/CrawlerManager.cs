@@ -91,6 +91,9 @@ namespace Lwb.Crawler
 
                 List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
 
+                if (sCrawlTaskList == null)
+                    return sLwbResult;
+
                 sCrawlTaskList.ForEach(t =>
                 {
                     lock (mLocker)
@@ -175,8 +178,13 @@ namespace Lwb.Crawler
             {
                 mTaskPool.Remove(sCrawlTask.ID);
                 //界面设计
+                HostStatus sHostStatus;
+                if (mHostDic.TryGetValue(sCrawlTask.Host, out sHostStatus))
+                {
+                    //sHostStatus.Total += sCrawlResult.List.Count;
+                    sHostStatus.TaskCount--;
+                }
             }
-
             //发送任务回数据中心
             WCFServer.SendingCrawlResult(sCrawlResult, sCrawlTask.Authority);
         }
