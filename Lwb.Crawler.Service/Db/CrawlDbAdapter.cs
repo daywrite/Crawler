@@ -66,13 +66,31 @@ namespace Lwb.Crawler.Service.Db
             {
                 string sql = string.Format("Insert into CTaskResult values(@url,@rcontent,@isdeleted,@createdtime)");
                 sqlConnection.Open();
-                pCrawlResultDetailList.ForEach(t => sqlConnection.Execute(sql, 
-                    new { url = "", 
-                        rcontent = t.Content, 
-                        isdeleted = false, 
-                        createdtime = DateTime.Now })
+                pCrawlResultDetailList.ForEach(t => sqlConnection.Execute(sql,
+                    new
+                    {
+                        url = "",
+                        rcontent = t.Content,
+                        isdeleted = false,
+                        createdtime = DateTime.Now
+                    })
                         );
 
+                sqlConnection.Close();
+            }
+        }
+
+        /// <summary>
+        /// 任务完成后更新标志数据库
+        /// </summary>
+        /// <param name="id"></param>
+        public void UpdateCTask(int id)
+        {
+            using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
+            {
+                string sql = string.Format("Update CTask set IsDeleted=true where Id={0}", id);
+                sqlConnection.Open();
+                sqlConnection.Execute(sql);
                 sqlConnection.Close();
             }
         }

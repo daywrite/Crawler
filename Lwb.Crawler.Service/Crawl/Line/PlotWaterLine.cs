@@ -325,11 +325,14 @@ namespace Lwb.Crawler.Service.Crawl
             mLastProduceDt = DateTime.Now;
             //将任务和结果合并成一个对象
             List<CrawlOriData> sCrawlOriDataList = new List<CrawlOriData>();
+            //任务包完成的细节任务集合ID
+            List<int> mFinishedIdList = new List<int>();
             for (int i = 0; i < sCrawlTask.List.Count; i++)
             {
                 CrawlResultDetail sCrawlResultDetail = pResult.List[i];
                 CrawlTaskDetail sCrawlTaskDetail = sCrawlTask.List[i];
-
+                //将完成ID
+                mFinishedIdList.Add(sCrawlTaskDetail.ID);
                 CrawlOriData sCrawlOriData = new CrawlOriData(sCrawlTaskDetail, sCrawlResultDetail, (byte)("utf-8".Equals(Chaset, StringComparison.OrdinalIgnoreCase) ? 0 : 1));
 
                 //存储原始数据
@@ -339,6 +342,10 @@ namespace Lwb.Crawler.Service.Crawl
 
             }
             //更新数据库标示，已经完成任务
+            mFinishedIdList.ForEach(t => {
+                crawlDbAdapter.UpdateCTask(t);
+            });
+
             AddCrawlDatasWaitDrill(sCrawlOriDataList);
 
         }

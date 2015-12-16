@@ -9,7 +9,7 @@ using System.IO.Compression;
 using Haina.Base.Html;
 using Lwb.Crawler.Contract.Crawl.Model;
 
-namespace Haina.Crawl.OpenCase.Meta
+namespace Lwb.Crawler.Contract.Crawl.Model
 {
     public class CrawlOriData
     {
