@@ -88,7 +88,7 @@ namespace Lwb.Crawler.Service.Db
         {
             using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
             {
-                string sql = string.Format("Update CTask set IsDeleted=true where Id={0}", id);
+                string sql = string.Format("Update CTask set IsDeleted=1 where Id={0}", id);
                 sqlConnection.Open();
                 sqlConnection.Execute(sql);
                 sqlConnection.Close();
