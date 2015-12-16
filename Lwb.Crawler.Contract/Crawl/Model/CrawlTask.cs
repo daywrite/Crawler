@@ -16,9 +16,7 @@ namespace Lwb.Crawler.Contract.Crawl.Model
             ID = new Int128(Guid.NewGuid().ToByteArray());
             CreateDt = DateTime.Now;
             WorkTimeSpan = 60;
-
-            DelayMin = 5000;
-            DelayMax = 20000;     
+ 
         }
         [DataMember]
         public string Host { get; set; }

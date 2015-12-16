@@ -10,10 +10,11 @@ using Lwb.Crawler.Contract.Crawl.Model;
 
 namespace Lwb.Crawler.Contract
 {
-    [ServiceContract]
+    [ServiceContract]  
     public interface ICrawler
     {
         [OperationContract]
+        [FaultContract(typeof(Exception))]
         LwbResult LwbEach(LwbInput pLwbInput);            
     }
 }
