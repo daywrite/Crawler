@@ -8,12 +8,15 @@ namespace Lwb.Crawler.Contract.Crawl.Model
 {
     public class HostStatus
     {
-        public string Host { get; set; }                   //主机地址
+        //主机地址
+        public string Host { get; set; }
+        //当前的任务计数
+        public int TaskCount { get; set; }  
+         
         public HostStatus(string pHost)
         {
             Host = pHost;
-        }
-        public int TaskCount { get; set; }                 //当前的任务计数
+        }                       
         public bool Busy
         {
             get { return TaskCount > 0; }

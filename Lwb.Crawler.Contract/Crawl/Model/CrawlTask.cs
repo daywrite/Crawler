@@ -16,6 +16,9 @@ namespace Lwb.Crawler.Contract.Crawl.Model
             ID = new Int128(Guid.NewGuid().ToByteArray());
             CreateDt = DateTime.Now;
             WorkTimeSpan = 60;
+
+            DelayMin = 5000;
+            DelayMax = 20000;     
         }
         [DataMember]
         public string Host { get; set; }
@@ -31,6 +34,8 @@ namespace Lwb.Crawler.Contract.Crawl.Model
         public int WorkTimeSpan { get; set; }            //任务有效期
         [DataMember]
         public List<CrawlTaskDetail> List = new List<CrawlTaskDetail>();     //任务列表
+
+       
     }
 
     [DataContract]

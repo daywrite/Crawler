@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNet4.Utilities;
+using Haina;
 using Haina.Base;
 using Lwb.Crawler;
 using Lwb.Crawler.Contract.Crawl.Model;
@@ -37,6 +38,12 @@ namespace Lwb.Crawler
         //爬虫能接受的最大任务数量
         public static int MaxThreads { get; set; }
 
+        #region 辅助字段
+        //最小延时
+        public static int DelayMin { get; set; }
+        //最大延时                       
+        public static int DelayMax { get; set; }
+        #endregion
         static CrawlerManager()
         {
             httpHelper = new HttpHelper();
@@ -53,7 +60,7 @@ namespace Lwb.Crawler
         public static LwbResult DbAdapter()
         {
             if (!mCanAttemper)
-                return new LwbResult(LwbResultType.Success, "爬虫正在干活中，请勿累死爬虫");
+                return new LwbResult(LwbResultType.Success, "爬虫正在获取任务中，请勿累死爬虫");
 
             try
             {
@@ -65,7 +72,7 @@ namespace Lwb.Crawler
                     sMax = (MaxThreads - mTaskPool.Count) > 5 ? 5 : (MaxThreads - mTaskPool.Count);
                 }
                 //爬虫已经在干任务达到30个
-                 if (sMax == 0)
+                if (sMax == 0)
                     return new LwbResult(LwbResultType.Success, "爬虫已经正在干将近" + MaxThreads + "个任务，让他歇会吧");
 
                 List<string> sList = new List<string>();
@@ -98,23 +105,23 @@ namespace Lwb.Crawler
                         //任务包缓冲池
                         mTaskPool[t.ID] = t;
 
-                        //HostStatus sHostStatus;
-                        //if (mHostDic.TryGetValue(t.Host, out sHostStatus) == false)
-                        //{
-                        //    sHostStatus = new HostStatus(t.Host);
-                        //    mHostDic[t.Host] = sHostStatus;
-                        //}
-                        //sHostStatus.TaskCount++;
+                        HostStatus sHostStatus;
+                        if (mHostDic.TryGetValue(t.Host, out sHostStatus) == false)
+                        {
+                            sHostStatus = new HostStatus(t.Host);
+                            mHostDic[t.Host] = sHostStatus;
+                        }
+                        sHostStatus.TaskCount++;
                     }
                     ThreadPool.QueueUserWorkItem(new WaitCallback(ExeTask), t);
                 });
                 mLastAddTaskDt = DateTime.Now;
 
-                return new LwbResult(LwbResultType.Success, "爬虫正在干活中，很开心");
+                return new LwbResult(LwbResultType.Success, "爬虫获取任务完毕，很开心");
             }
             catch (Exception ee)
             {
-                return new LwbResult(LwbResultType.Error, "爬虫在干活过程中生病了" + ee.Message);
+                return new LwbResult(LwbResultType.Error, "爬虫在获取任务中生病了" + ee.Message);
             }
             finally
             {
@@ -123,26 +130,61 @@ namespace Lwb.Crawler
         }
 
         /// <summary>
-        /// 执行任务
+        /// 线程池抓取任务
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
         public static void ExeTask(object obj)
         {
             CrawlTask sCrawlTask = obj as CrawlTask;
-            CrawlResult sCrawlResult = new CrawlResult();
+
+            CrawlResult sCrawlResult = new CrawlResult(sCrawlTask.ID, sCrawlTask.PlotKey, sCrawlTask.LineID);
+
             sCrawlTask.List.ForEach(t =>
             {
-                item.URL = t.Url;
-                item.Method = "get";
+                try
+                {
+                    item.URL = t.Url;
+                    item.Method = "get";
 
-                result = httpHelper.GetHtml(item);
+                    result = httpHelper.GetHtml(item);
 
-                sCrawlResult.TaskID = sCrawlTask.ID;
-                sCrawlResult.PlotKey = sCrawlTask.PlotKey;
-                sCrawlResult.LineID = sCrawlTask.LineID;
-                sCrawlResult.List.Add(new CrawlResultDetail { ID = t.ID, Content = result.Html });
+
+                    sCrawlResult.List.Add(new CrawlResultDetail
+                    {
+                        Result = true,
+                        ID = t.ID,
+                        Ext = "html",
+                        Content = result.Html,
+                        Info = null
+                    });
+
+                    if (DelayMin >= DelayMax)
+                    {
+                        DelayMax = DelayMin + 5000;
+                    }
+                    Thread.Sleep(new Random().Next(DelayMin, DelayMax));
+                }
+                catch (Exception ee)
+                {
+                    sCrawlResult.List.Add(new CrawlResultDetail
+                    {
+                        Result = false,
+                        ID = t.ID,
+                        Ext = "Error",
+                        Content = null,
+                        Info = ee.Message
+                    });
+                }
             });
+
+            lock (mLocker)
+            {
+                mTaskPool.Remove(sCrawlTask.ID);
+                //界面设计
+            }
+
+            //发送任务回数据中心
             WCFServer.SendingCrawlResult(sCrawlResult);
         }
     }

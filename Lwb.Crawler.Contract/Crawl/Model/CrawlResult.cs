@@ -10,13 +10,25 @@ namespace Lwb.Crawler.Contract.Crawl.Model
 {
     [DataContract]
     public class CrawlResult
-    {      
+    {
+        public CrawlResult()
+        { }
+        public CrawlResult(Int128 pTaskID, Int128 pPlotKey, int pLineID)
+        {
+            TaskID = pTaskID;
+            PlotKey = pPlotKey;
+            LineID = pLineID;
+        }
+
+        //任务标识
         [DataMember]
-        public Int128 TaskID { get; set; }//任务标识
+        public Int128 TaskID { get; set; }
+        //专案标识
         [DataMember]
-        public Int128 PlotKey { get; set; }//专案标识
+        public Int128 PlotKey { get; set; }
+        //生产线标识     
         [DataMember]
-        public int LineID { get; set; }  //生产线标识                         
+        public int LineID { get; set; }
         [DataMember]
         public List<CrawlResultDetail> List = new List<CrawlResultDetail>();
     }
@@ -33,6 +45,7 @@ namespace Lwb.Crawler.Contract.Crawl.Model
             Result = pResult;
         }
         public CrawlResultDetail(bool pResult, string pErrInfo)
+            : this()
         {
             Result = pResult;
             Info = pErrInfo;
