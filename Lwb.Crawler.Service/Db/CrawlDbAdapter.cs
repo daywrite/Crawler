@@ -79,7 +79,28 @@ namespace Lwb.Crawler.Service.Db
                 sqlConnection.Close();
             }
         }
+        /// <summary>
+        /// 单条插入数据库
+        /// </summary>
+        /// <param name="pCrawlResultDetailList"></param>
+        public void InsertCrawlResult(CrawlResultDetail pCrawlResultDetail)
+        {
+            using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
+            {
+                string sql = string.Format("Insert into CTaskResult values(@url,@rcontent,@isdeleted,@createdtime)");
+                sqlConnection.Open();
+                sqlConnection.Execute(sql,
+                    new
+                    {
+                        url = "",
+                        rcontent = t.Content,
+                        isdeleted = false,
+                        createdtime = DateTime.Now
+                    });
 
+                sqlConnection.Close();
+            }
+        }
         /// <summary>
         /// 任务完成后更新标志数据库
         /// </summary>

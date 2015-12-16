@@ -336,7 +336,7 @@ namespace Lwb.Crawler.Service.Crawl
                 CrawlOriData sCrawlOriData = new CrawlOriData(sCrawlTaskDetail, sCrawlResultDetail, (byte)("utf-8".Equals(Chaset, StringComparison.OrdinalIgnoreCase) ? 0 : 1));
 
                 //存储原始数据
-                crawlDbAdapter.InsertCrawlResult(pResult.List);
+                crawlDbAdapter.InsertCrawlResult(sCrawlResultDetail);
                 //
                 sCrawlOriDataList.Add(sCrawlOriData);
 
