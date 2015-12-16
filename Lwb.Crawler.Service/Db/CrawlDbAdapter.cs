@@ -93,7 +93,7 @@ namespace Lwb.Crawler.Service.Db
                     new
                     {
                         url = "",
-                        rcontent = t.Content,
+                        rcontent = pCrawlResultDetail.Content,
                         isdeleted = false,
                         createdtime = DateTime.Now
                     });
