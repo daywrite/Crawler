@@ -18,6 +18,10 @@ namespace Lwb.Crawler.Contract.Crawl.Model
             WorkTimeSpan = 60;
  
         }
+
+        [DataMember]
+        public string Authority { get; set; }
+
         [DataMember]
         public string Host { get; set; }
         [DataMember]

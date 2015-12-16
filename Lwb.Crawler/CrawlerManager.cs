@@ -88,15 +88,8 @@ namespace Lwb.Crawler
                 }
                 //去远程服务器取任务
                 LwbResult sLwbResult = WCFServer.GetCrawlTask(new Input获取生产线任务列表 { RuningTaskHost = sList, TaskMax = sMax });
-                //先看看结果
-                if (sLwbResult.ResultType != LwbResultType.Success)
-                    return sLwbResult;
-                //转换结果
+
                 List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
-                if (sCrawlTaskList == null)
-                    return new LwbResult(LwbResultType.Error, "爬虫抓取返回数据格式错误");
-                if (sCrawlTaskList.Count == 0)
-                    return new LwbResult(LwbResultType.Success, "爬虫获取到的任务数量为0");
 
                 sCrawlTaskList.ForEach(t =>
                 {
@@ -185,7 +178,7 @@ namespace Lwb.Crawler
             }
 
             //发送任务回数据中心
-            WCFServer.SendingCrawlResult(sCrawlResult);
+            WCFServer.SendingCrawlResult(sCrawlResult, sCrawlTask.Authority);
         }
     }
 }

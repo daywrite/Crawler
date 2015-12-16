@@ -56,8 +56,23 @@ namespace Lwb.Crawler
                 mPos++;
                 if (mPos >= mAuthorityList.Count)
                     mPos = 0;
+                string sAuthority = mAuthorityList[mPos];
+                LwbResult sLwbResult = LwbProcess(pInput获取生产线任务列表, (int)CrawlCmd.获取生产线任务列表, sAuthority);
 
-                LwbResult sLwbResult = LwbProcess(pInput获取生产线任务列表, (int)CrawlCmd.获取生产线任务列表, mAuthorityList[mPos]);
+                //先看看结果
+                if (sLwbResult.ResultType != LwbResultType.Success)
+                    return sLwbResult;
+                //转换结果
+                List<CrawlTask> sCrawlTaskList = sLwbResult.Data as List<CrawlTask>;
+                if (sCrawlTaskList == null)
+                    return new LwbResult(LwbResultType.Error, "爬虫抓取返回数据格式错误");
+                if (sCrawlTaskList.Count == 0)
+                    return new LwbResult(LwbResultType.Success, "爬虫获取到的任务数量为0");
+
+                sCrawlTaskList.ForEach(t =>
+                {
+                    t.Authority = sAuthority;
+                });
 
                 return sLwbResult;
             }
@@ -71,9 +86,9 @@ namespace Lwb.Crawler
         /// 爬虫获取到html发送回服务中心
         /// </summary>
         /// <param name="pCrawlResult"></param>
-        public static void SendingCrawlResult(CrawlResult pCrawlResult)
+        public static void SendingCrawlResult(CrawlResult pCrawlResult, string pAuthority)
         {
-            LwbProcess(pCrawlResult, (int)CrawlCmd.发送爬行任务, null);
+            LwbProcess(pCrawlResult, (int)CrawlCmd.发送爬行任务, pAuthority);
         }
     }
 }
