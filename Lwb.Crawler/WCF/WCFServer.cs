@@ -28,7 +28,7 @@ namespace Lwb.Crawler
         {
             using (ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>(
                    new WSHttpBinding(SecurityMode.None),
-                   new EndpointAddress("http://127.0.0.1:8080/crawlerservice")))
+                   new EndpointAddress(pAuthority + "/crawlerservice")))
             {
                 ICrawler proxy = channelFactory.CreateChannel();
                 using (proxy as IDisposable)
@@ -37,15 +37,6 @@ namespace Lwb.Crawler
                 }
 
             }
-
-            //using ( ChannelFactory<ICrawler> channelFactory = new ChannelFactory<ICrawler>("crawlerservice"))
-            //{
-            //    ICrawler proxy = channelFactory.CreateChannel();
-            //    using (proxy as IDisposable)
-            //    {
-            //        return proxy.LwbEach(new LwbInput { Type = pType, Data = pData });
-            //    }
-            //}
         }
 
         /// <summary>
