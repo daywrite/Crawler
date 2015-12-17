@@ -163,7 +163,7 @@
             animation1.TransparencyCoeff = 0F;
             this.tabPlot.Animation = animation1;
             this.tabPlot.AnimatorType = CCWin.SkinControl.AnimationType.HorizSlide;
-            this.tabPlot.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.tabPlot.BackColor = System.Drawing.Color.LightGreen;
             this.tabPlot.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
             this.tabPlot.Controls.Add(this.tabPage1);
             this.tabPlot.Controls.Add(this.tabPage2);

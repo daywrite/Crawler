@@ -32,6 +32,7 @@ namespace Lwb.Crawler.Center.Server
         private ServiceHost host = null;                                       //寄宿服务对象
         public frmPageGet _frmPageGet;
         public frmPageManage _frmPageManage;
+        public FrmPageDataBase _FrmPageDataBase;
         private void FrmServer_Load(object sender, EventArgs e)
         {
             frmLoad();
@@ -49,6 +50,11 @@ namespace Lwb.Crawler.Center.Server
             {
                 _frmPageManage = new frmPageManage();
                 setStyle(tabPage2, _frmPageManage);
+            }
+            if (_FrmPageDataBase == null)
+            {
+                _FrmPageDataBase = new FrmPageDataBase();
+                setStyle(tabPage3, _FrmPageDataBase);
             }
         }
         /// <summary>

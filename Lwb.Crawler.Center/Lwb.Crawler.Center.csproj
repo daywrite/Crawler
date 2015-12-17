@@ -99,6 +99,12 @@
     <Compile Include="Server\Main\FrmNewFolder.Designer.cs">
       <DependentUpon>FrmNewFolder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Server\Main\FrmPageDataBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Server\Main\FrmPageDataBase.Designer.cs">
+      <DependentUpon>FrmPageDataBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Server\Main\frmPageGet.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Server\Main\FrmNewFolder.resx">
       <DependentUpon>FrmNewFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Server\Main\FrmPageDataBase.resx">
+      <DependentUpon>FrmPageDataBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Server\Main\frmPageGet.resx">
       <DependentUpon>frmPageGet.cs</DependentUpon>
