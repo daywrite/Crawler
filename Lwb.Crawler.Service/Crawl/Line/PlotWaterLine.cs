@@ -100,19 +100,64 @@ namespace Lwb.Crawler.Service.Crawl
         /// </summary>
         internal void Attemper(DateTime pDt)
         {
-            lock (mLocker)
+            //生产线开启状态
+            if (mState == (int)WaterLineState.Start)
             {
-                #region 中间结果调度处理
-                if (mCrawlDataWaitDrillList.Count > 0)      //待提取处理的信息
+                if (((pDt - mLastRetrieveDt).TotalMinutes > 5))
                 {
-                    //List<CrawlOriData> sCrawlDataList = mCrawlDataWaitDrillList;         //替换接水盆
-                    //mCrawlDataWaitDrillList = new List<CrawlOriData>();
-                    ThreadPool.QueueUserWorkItem(new WaitCallback(DrillCrawlData), mCrawlDataWaitDrillList);
-                }
-                #endregion
-            }
-        }
+                    //保留回收时间
+                    mLastRetrieveDt = pDt;
 
+                    List<CrawlTaskDetail> sCrawlTaskDetailList = new List<CrawlTaskDetail>();
+                    lock (mLocker)
+                    {
+                        List<Int128> sCrawlTaskKeyList = new List<Int128>();
+                        foreach (KeyValuePair<Int128, CrawlTask> sKp in mRunningTaskDic)
+                        {
+                            if (sKp.Value.TimeOut(pDt))
+                            {
+                                sCrawlTaskKeyList.Add(sKp.Key);
+                                sCrawlTaskDetailList.AddRange(sKp.Value.List);
+                            }
+                            for (int i = 0; i < sKp.Value.List.Count; i++)
+                            {
+                                mRunningTaskDetailDic.Remove(sKp.Value.List[i].Key);
+                            }
+                        }
+                        for (int i = 0; i < sCrawlTaskKeyList.Count; i++)
+                        {
+                            mRunningTaskDic.Remove(sCrawlTaskKeyList[i]);
+                        }
+                    }
+                    if (sCrawlTaskDetailList.Count > 0)
+                    {
+                        for (int i = 0; i < sCrawlTaskDetailList.Count; i++)
+                        {
+                            AddCrawlTaskDetail(sCrawlTaskDetailList[i]);    //将回收的任务放回队列中
+                        }
+                    }
+                }
+
+
+                lock (mLocker)
+                {
+                    if (mCrawlDataWaitDrillList.Count > 0)      //待提取处理的信息
+                    {
+                        List<CrawlOriData> sCrawlDataList = mCrawlDataWaitDrillList;         //替换接水盆
+                        mCrawlDataWaitDrillList = new List<CrawlOriData>();
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(DrillCrawlData), sCrawlDataList);
+                    }
+                }
+            }           
+        }
+        /// <summary>
+        /// 添加详细采集任务
+        /// </summary>
+        /// <param name="pTaskDetail"></param>
+        internal void AddCrawlTaskDetail(CrawlTaskDetail pTaskDetail)
+        {
+            
+        }
         private void DrillCrawlData(object obj)
         {
             List<CrawlOriData> sDrillCrawlData = obj as List<CrawlOriData>;
@@ -124,6 +169,12 @@ namespace Lwb.Crawler.Service.Crawl
             List<DrillResult> sResultList = null;
 
             sResultList = DrillRegularResult(pCrawlOriData);
+
+            sResultList.ForEach(t => {
+                t.Records.ForEach(tt => {
+                    crawlDbAdapter.InsertCrawlDetailResult(tt);
+                });
+            });
         }
 
         private List<DrillResult> DrillRegularResult(CrawlOriData pCrawlOriData)

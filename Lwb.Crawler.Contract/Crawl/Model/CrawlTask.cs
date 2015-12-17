@@ -37,7 +37,10 @@ namespace Lwb.Crawler.Contract.Crawl.Model
         [DataMember]
         public List<CrawlTaskDetail> List = new List<CrawlTaskDetail>();     //任务列表
 
-       
+        public bool TimeOut(DateTime pDt)
+        {
+            return (pDt - CreateDt).TotalMinutes >= WorkTimeSpan;
+        }
     }
 
     [DataContract]

@@ -115,5 +115,27 @@ namespace Lwb.Crawler.Service.Db
                 sqlConnection.Close();
             }
         }
+
+        /// <summary>
+        /// 单条插入数据库
+        /// </summary>
+        /// <param name="pCrawlResultDetailList"></param>
+        public void InsertCrawlDetailResult(DrillCRecord pDrillCRecord)
+        {
+            using (var sqlConnection = new SqlConnection(Constant.DatabaseConnection))
+            {
+                string sql = string.Format("Insert into CTaskDetailResult values(@PlotName,@Type,@Url)");
+                sqlConnection.Open();
+                sqlConnection.Execute(sql,
+                    new
+                    {
+                        PlotName =pDrillCRecord.Record.PlotName,
+                        Type = pDrillCRecord.Record.Type,
+                        Url = pDrillCRecord.Record.Url
+                    });
+
+                sqlConnection.Close();
+            }
+        }
     }
 }
