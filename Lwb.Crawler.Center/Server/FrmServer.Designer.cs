@@ -35,6 +35,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabshow.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,6 +62,7 @@
             this.tabshow.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
             this.tabshow.Controls.Add(this.tabPage1);
             this.tabshow.Controls.Add(this.tabPage2);
+            this.tabshow.Controls.Add(this.tabPage3);
             this.tabshow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabshow.ImageList = this.imageList;
             this.tabshow.ImgSize = new System.Drawing.Size(41, 41);
@@ -80,7 +82,7 @@
             this.tabshow.PageNorml = null;
             this.tabshow.PageTextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.tabshow.SelectedIndex = 0;
-            this.tabshow.Size = new System.Drawing.Size(1023, 708);
+            this.tabshow.Size = new System.Drawing.Size(982, 702);
             this.tabshow.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabshow.TabIndex = 140;
             // 
@@ -118,6 +120,17 @@
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList.Images.SetKeyName(0, "link_46.019646365422px_1190280_easyicon.net.png");
             this.imageList.Images.SetKeyName(1, "Settings_48px_1185170_easyicon.net.png");
+            this.imageList.Images.SetKeyName(2, "Database_Active_48px_1093661_easyicon.net.png");
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.ImageIndex = 2;
+            this.tabPage3.Location = new System.Drawing.Point(0, 70);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(982, 632);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "元数据";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // FrmServer
             // 
@@ -126,9 +139,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGreen;
             this.BackLayout = false;
-            this.ClientSize = new System.Drawing.Size(1031, 740);
+            this.CanResize = false;
+            this.CaptionHeight = 22;
+            this.ClientSize = new System.Drawing.Size(990, 734);
+            this.CloseBoxSize = new System.Drawing.Size(29, 24);
+            this.ControlBoxOffset = new System.Drawing.Point(0, 0);
             this.Controls.Add(this.tabshow);
+            this.EffectCaption = CCWin.TitleType.None;
+            this.EffectWidth = 0;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaxSize = new System.Drawing.Size(25, 24);
+            this.MiniSize = new System.Drawing.Size(25, 24);
             this.Name = "FrmServer";
+            this.Radius = 1;
+            this.RoundStyle = CCWin.SkinClass.RoundStyle.None;
+            this.ShowBorder = false;
+            this.ShowDrawIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据采集管理中心";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -144,5 +170,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
